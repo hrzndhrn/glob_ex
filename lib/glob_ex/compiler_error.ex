@@ -1,0 +1,20 @@
+defmodule GlobEx.CompileError do
+  @moduledoc """
+  TODO
+  """
+  alias GlobEx.CompileError
+
+  @type reason :: :emtpy | :invalid
+
+  @type t :: %CompileError{reason: reason()}
+
+  defexception [:reason]
+
+  @impl true
+  def message(%CompileError{reason: reason}) do
+    case reason do
+      :empty -> "invalid empty glob"
+      {:missing_delimiter, pos} -> "missing terminator for delimiter opened at #{pos}"
+    end
+  end
+end
