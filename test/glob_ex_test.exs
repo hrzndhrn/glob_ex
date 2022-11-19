@@ -701,6 +701,9 @@ defmodule GlobExTest do
     wildcard_files = Path.wildcard(glob, match_dot: match_dot)
     ls_files = glob |> GlobEx.compile!(match_dot: match_dot) |> GlobEx.ls()
 
+    # update wildcard_files for glob '**/**' to hide a bug in OTP 22.3
+    wildcard_files = if glob == "**/**", do: Enum.uniq(wildcard_files), else: wildcard_files
+
     if wildcard_files != ls_files do
       raise """
       Path.wildcard/2 != GlobEx.ls/2
