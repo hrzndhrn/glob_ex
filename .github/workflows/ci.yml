@@ -1,4 +1,4 @@
-# Created with GitHubActions version 0.2.3
+# Created with GitHubActions version 0.2.4
 name: CI
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -10,12 +10,11 @@ jobs:
     name: Test on Ubuntu (Elixir ${{ matrix.elixir }}, OTP ${{ matrix.otp }})
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
       matrix:
         elixir:
           - '1.12.3'
           - '1.13.4'
-          - '1.14.1'
+          - '1.14.2'
         otp:
           - '22.3'
           - '23.3'
@@ -24,7 +23,7 @@ jobs:
         exclude:
           - elixir: '1.12.3'
             otp: '25.1'
-          - elixir: '1.14.1'
+          - elixir: '1.14.2'
             otp: '22.3'
     steps:
       - name: Checkout
@@ -51,20 +50,20 @@ jobs:
       - name: Compile project
         run: MIX_ENV=test mix compile --warnings-as-errors
       - name: Check unused dependencies
-        if: ${{ contains(matrix.elixir, '1.14.1') && contains(matrix.otp, '25.1') }}
+        if: ${{ contains(matrix.elixir, '1.14.2') && contains(matrix.otp, '25.1') }}
         run: mix deps.unlock --check-unused
       - name: Check code format
-        if: ${{ contains(matrix.elixir, '1.14.1') && contains(matrix.otp, '25.1') }}
+        if: ${{ contains(matrix.elixir, '1.14.2') && contains(matrix.otp, '25.1') }}
         run: mix format --check-formatted
       - name: Lint code
-        if: ${{ contains(matrix.elixir, '1.14.1') && contains(matrix.otp, '25.1') }}
+        if: ${{ contains(matrix.elixir, '1.14.2') && contains(matrix.otp, '25.1') }}
         run: mix credo --strict
       - name: Run tests
         run: mix test
-        if: ${{ !(contains(matrix.elixir, '1.14.1') && contains(matrix.otp, '25.1')) }}
+        if: ${{ !(contains(matrix.elixir, '1.14.2') && contains(matrix.otp, '25.1')) }}
       - name: Run tests with coverage
         run: mix coveralls.github
-        if: ${{ contains(matrix.elixir, '1.14.1') && contains(matrix.otp, '25.1') }}
+        if: ${{ contains(matrix.elixir, '1.14.2') && contains(matrix.otp, '25.1') }}
   windows:
     name: Test on Windows
     runs-on: windows-latest
@@ -117,8 +116,8 @@ jobs:
       - name: Compile project
         run: MIX_ENV=test mix compile --warnings-as-errors
       - name: Run tests
-        run: MIX_ENV=test mix test
-        if: ${{ !(contains(matrix.elixir, '1.14.1') && contains(matrix.otp, '25.1')) }}
+        run: mix test
+        if: ${{ !(contains(matrix.elixir, '1.14.2') && contains(matrix.otp, '25.1')) }}
       - name: Run tests with coverage
-        run: MIX_ENV=test mix coveralls.github
-        if: ${{ contains(matrix.elixir, '1.14.1') && contains(matrix.otp, '25.1') }}
+        run: mix coveralls.github
+        if: ${{ contains(matrix.elixir, '1.14.2') && contains(matrix.otp, '25.1') }}
