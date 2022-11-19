@@ -26,7 +26,7 @@ defmodule GlobEx.MixProject do
       carp: :test,
       coveralls: :test,
       "coveralls.detail": :test,
-      "coveralls.post": :test,
+      "coveralls.github": :test,
       "coveralls.html": :test
     ]
   end
