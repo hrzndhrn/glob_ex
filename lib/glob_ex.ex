@@ -202,9 +202,12 @@ defmodule GlobEx do
   defp list([{:exact, '..'} | glob], match_dot, matches) do
     matches =
       Enum.reduce(matches, [], fn match, acc ->
-        case :filelib.is_dir(match) do
-          true -> [join(match, '..') | acc]
-          false -> acc
+        case :file.read_file_info(match) do
+          {:ok, {:file_info, _, :directory, _, _, _, _, _, _, _, _, _, _, _}} ->
+            [join(match, '..') | acc]
+
+          {:ok, {:file_info, _, :regular, _, _, _, _, _, _, _, _, _, _, _}} ->
+            acc
         end
       end)
 
