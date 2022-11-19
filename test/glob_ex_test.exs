@@ -239,7 +239,7 @@ defmodule GlobExTest do
 
     test "matching with pattern [] (tricky characters)" do
       all =
-        if unix? do
+        if unix?() do
           ["a-", "aA", "aB", "aC", "a[", "a\\", "a]"]
         else
           ["a-", "aA", "aB", "aC", "a[", "a]"]
@@ -247,7 +247,7 @@ defmodule GlobExTest do
 
       mkfiles(all)
 
-      if unix? do
+      if unix?() do
         # [diff] Path.wildcard/2 vs GlobEx
         #        checked with python, perl and zsh
         assert GlobEx.ls(~g|a\\|) == ["a\\"]
@@ -565,10 +565,6 @@ defmodule GlobExTest do
     prove GlobEx.match?(~g|foo/bar/baz|, "foo/bar/baz") == true
     prove GlobEx.match?(~g|.foo/.bar/.baz|, ".foo/.bar/.baz") == true
     prove GlobEx.match?(~g|.foo/.bar/.baz|d, ".foo/.bar/.baz") == true
-
-    if unix?() do
-      prove GlobEx.match?(~g|ab\\c|, "ab\\c") == true
-    end
 
     prove GlobEx.match?(~g|a?c|, "abc") == true
     prove GlobEx.match?(~g|a?c/|, "abc") == true
