@@ -8,6 +8,7 @@ defmodule GlobEx.MixProject do
       app: :glob_ex,
       version: "0.1.0",
       elixir: "~> 1.12",
+      description: description(),
       source_url: @github,
       start_permanent: Mix.env() == :prod,
       preferred_cli_env: preferred_cli_env(),
@@ -18,6 +19,10 @@ defmodule GlobEx.MixProject do
       aliases: aliases(),
       deps: deps()
     ]
+  end
+
+  def description do
+    "A library for glob expressions."
   end
 
   def application do
