@@ -29,6 +29,10 @@ iex(5)> GlobEx.ls(~g|{lib,test}/**/*.{ex,exs}|)
 ["lib/glob_ex.ex", "lib/glob_ex/compiler.ex", "lib/glob_ex/compiler_error.ex",
  "lib/glob_ex/sigils.ex", "test/glob_ex/compiler_test.exs",
  "test/glob_ex_test.exs", "test/test_helper.exs"]
+iex(6)> GlobEx.ls(~g|*.exs|) # ignores files with a starting dot
+["mix.exs"]
+iex(7)> GlobEx.ls(~g|*.exs|d) # files starting with a dot will not be treated specially
+[".credo.exs", ".formatter.exs", "mix.exs"]
 ```
 
 ## Benchmarks
