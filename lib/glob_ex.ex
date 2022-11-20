@@ -29,6 +29,20 @@ defmodule GlobEx do
   A character preceded by \ loses its special meaning.
   Note that \ must be written as \\ in a string literal.
   For example, "\\?*" will match any filename starting with ?.
+
+  Glob expressions in can be created using `compile/2`, `compile!/2` or the
+  sigils ~g (see `GlobEx.Sigils.sigil_g/2`) or ~G (see
+  `GlobEx.Sigils.sigil_G/2`).
+
+  ```elixir
+  # A simple glob expressions matching all `.exs` files in a tree. By default,
+  # the patterns `*` and `?` do not match files starting with a `.`.
+  ~g|**/*.exs|
+
+  # The modifier `d` let the glob treat files starting with a `.` as any other
+  # file.
+  ~g|**/*.exs|d
+  ```
   """
 
   alias GlobEx.CompileError
@@ -43,7 +57,8 @@ defmodule GlobEx do
   @doc """
   Compiles the glob expression and raises GlobEx.CompileError in case of errors.
 
-  See the module documentation for how to write a glob expression.
+  See the module documentation for how to write a glob expression and
+  `compile/2` for the available options.
   """
   @spec compile!(binary(), keyword()) :: t()
   def compile!(glob, opts \\ []) do
@@ -59,6 +74,15 @@ defmodule GlobEx do
   It returns `{:ok, regex}` in case of success, `{:error, reason}` otherwise.
 
   See the module documentation for how to write a glob expression.
+
+  By default, the patterns `*` and `?` do not match files starting with a `.`.
+  This behaviour can be change with the option `:match_dot`.
+
+  ## Options
+
+    * `:match_dot` - (boolean) if `false`, the special wildcard characters `*` and `?`
+      will not match files starting with a `.`. If `true`, files starting with
+      a `.` will not be treated specially. Defaults to `false`.
 
   ## Examples
 

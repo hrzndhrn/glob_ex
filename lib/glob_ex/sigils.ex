@@ -6,6 +6,8 @@ defmodule GlobEx.Sigils do
   @doc ~S"""
   Handles the sigil `~g` for globs.
 
+  See the module documentation `GlobEx` for how to write a glob expression.
+
   ## Examples
 
       iex> ~g|*.txt|
@@ -35,6 +37,8 @@ defmodule GlobEx.Sigils do
 
   It returns a glob expression pattern without interpolations and without escape
   characters.
+
+  See the module documentation `GlobEx` for how to write a glob expression.
 
   ## Examples
 
