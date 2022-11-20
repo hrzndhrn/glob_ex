@@ -1,17 +1,22 @@
 defmodule GlobEx.MixProject do
   use Mix.Project
 
+  @github "https://github.com/hrzndhrn/glob_ex"
+
   def project do
     [
       app: :glob_ex,
       version: "0.1.0",
       elixir: "~> 1.12",
+      source_url: @github,
       start_permanent: Mix.env() == :prod,
-      deps: deps(),
       preferred_cli_env: preferred_cli_env(),
-      aliases: aliases(),
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: preferred_cli_env()
+      preferred_cli_env: preferred_cli_env(),
+      docs: docs(),
+      package: package(),
+      aliases: aliases(),
+      deps: deps()
     ]
   end
 
@@ -28,6 +33,20 @@ defmodule GlobEx.MixProject do
       "coveralls.detail": :test,
       "coveralls.github": :test,
       "coveralls.html": :test
+    ]
+  end
+
+  def docs do
+    [
+      main: "GlobEx"
+    ]
+  end
+
+  defp package do
+    [
+      maintainers: ["Marcus Kruse"],
+      licenses: ["MIT"],
+      links: %{"GitHub" => @github}
     ]
   end
 

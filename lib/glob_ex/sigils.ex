@@ -1,6 +1,6 @@
 defmodule GlobEx.Sigils do
   @moduledoc """
-  This module provides the sigil `~g||`.
+  This module provides the sigils `~g||` and `~G||`.
   """
 
   @doc ~S"""
