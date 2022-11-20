@@ -68,20 +68,20 @@ Run Time
 
   <tr>
     <td style="white-space: nowrap">GlobEx.match?/2</td>
-    <td style="white-space: nowrap; text-align: right">317.23 K</td>
-    <td style="white-space: nowrap; text-align: right">3.15 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;563.61%</td>
-    <td style="white-space: nowrap; text-align: right">2.79 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">5.25 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">302.94 K</td>
+    <td style="white-space: nowrap; text-align: right">3.30 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;536.71%</td>
+    <td style="white-space: nowrap; text-align: right">2.92 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">5.54 &micro;s</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">PathGlob.match?/2</td>
-    <td style="white-space: nowrap; text-align: right">85.12 K</td>
-    <td style="white-space: nowrap; text-align: right">11.75 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;62.39%</td>
-    <td style="white-space: nowrap; text-align: right">10.79 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">26.33 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">86.73 K</td>
+    <td style="white-space: nowrap; text-align: right">11.53 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;66.30%</td>
+    <td style="white-space: nowrap; text-align: right">10.63 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">29.00 &micro;s</td>
   </tr>
 
 </table>
@@ -96,14 +96,14 @@ Run Time Comparison
     <th style="text-align: right">Slower</th>
   <tr>
     <td style="white-space: nowrap">GlobEx.match?/2</td>
-    <td style="white-space: nowrap;text-align: right">317.23 K</td>
+    <td style="white-space: nowrap;text-align: right">302.94 K</td>
     <td>&nbsp;</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">PathGlob.match?/2</td>
-    <td style="white-space: nowrap; text-align: right">85.12 K</td>
-    <td style="white-space: nowrap; text-align: right">3.73x</td>
+    <td style="white-space: nowrap; text-align: right">86.73 K</td>
+    <td style="white-space: nowrap; text-align: right">3.49x</td>
   </tr>
 
 </table>

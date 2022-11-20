@@ -30,3 +30,14 @@ iex(5)> GlobEx.ls(~g|{lib,test}/**/*.{ex,exs}|)
  "lib/glob_ex/sigils.ex", "test/glob_ex/compiler_test.exs",
  "test/glob_ex_test.exs", "test/test_helper.exs"]
 ```
+
+## Benchmarks
+
+The repo contains some benchmarks.
+
+The [benchmark](https://github.com/hrzndhrn/glob_ex/blob/main/bench/ls_bench.md)
+"comparing `GlobEx.ls/1` and `Path.wildcard/2`" shows that both implementations
+are equally fast.
+
+Another [benchmark]() compares `GlobEx.match?/2` with
+[`GlobPath.match/3`](https://hexdocs.pm/path_glob/PathGlob.html#match?/3).
