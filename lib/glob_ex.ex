@@ -202,12 +202,9 @@ defmodule GlobEx do
   defp list([{:exact, '..'} | glob], match_dot, matches) do
     matches =
       Enum.reduce(matches, [], fn match, acc ->
-        case :file.read_file_info(match) do
-          {:ok, {:file_info, _, :directory, _, _, _, _, _, _, _, _, _, _, _}} ->
-            [join(match, '..') | acc]
-
-          {:ok, {:file_info, _, :regular, _, _, _, _, _, _, _, _, _, _, _}} ->
-            acc
+        case :filelib.is_dir(match) do
+          true -> [join(match, '..') | acc]
+          false -> acc
         end
       end)
 
@@ -215,7 +212,7 @@ defmodule GlobEx do
   end
 
   defp list([{:exact, file} | glob], match_dot, [@cwd]) do
-    case File.exists?(file) do
+    case file_exists?(file) do
       true -> list(glob, match_dot, [file])
       false -> []
     end
@@ -442,6 +439,38 @@ defmodule GlobEx do
   defp split(<<char::utf8, rest::binary>>, [comp | acc]) do
     split(rest, [[char | comp] | acc])
   end
+
+  defp file_exists?(file) do
+    # On Windows, "pathname/.." will seem to exist even if pathname does not
+    # refer to a directory.
+    case :os.type() do
+      {:win32, _} -> do_file_exists?(file)
+      _else -> File.exists?(file)
+    end
+  end
+
+  defp do_file_exists?(file) do
+    file
+    |> IO.chardata_to_string()
+    |> split([[]])
+    |> do_file_exists?(@cwd)
+  end
+
+  defp do_file_exists?([comp, '..' | path], acc) do
+    dir = :filename.join(acc, Enum.reverse(comp))
+
+    case :filelib.is_dir(dir) do
+      true -> do_file_exists?(path, :filename.join(dir, '..'))
+      false -> false
+    end
+  end
+
+  defp do_file_exists?([comp | path], acc) do
+    acc = :filename.join(acc, Enum.reverse(comp))
+    do_file_exists?(path, acc)
+  end
+
+  defp do_file_exists?([], acc), do: File.exists?(acc)
 
   @doc false
   # Unescape map function used by Macro.unescape_string.

@@ -544,6 +544,7 @@ defmodule GlobExTest do
       assert ls("b*") == ["bar", "baz"]
 
       assert ls("bar/../baz") == ["bar/../baz"]
+      assert ls("bar/../foo") == []
       assert ls("baz/../bar") == []
     end
 
