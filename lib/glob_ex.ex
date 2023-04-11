@@ -452,10 +452,6 @@ defmodule GlobEx do
     end
   end
 
-  defp split(<<?/, rest::binary>>, [[]]) do
-    split(rest, [[], []])
-  end
-
   defp split(<<>>, acc) do
     Enum.reverse(acc)
   end
