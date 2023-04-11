@@ -296,6 +296,10 @@ defmodule GlobEx do
     comp in one_of
   end
 
+  defp match_comp?(comp, :root) do
+    comp == []
+  end
+
   defp match_comp?(_comp, {:one_of, _one_of}) do
     false
   end
@@ -446,6 +450,10 @@ defmodule GlobEx do
       true -> {[path | matches], [path | acc]}
       false -> {[path | matches], acc}
     end
+  end
+
+  defp split(<<?/, rest::binary>>, [[]]) do
+    split(rest, [[], []])
   end
 
   defp split(<<>>, acc) do

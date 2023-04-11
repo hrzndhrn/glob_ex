@@ -702,6 +702,13 @@ defmodule GlobExTest do
     prove GlobEx.match?(~g|@*/../@*|, "@/../@") == true
     prove GlobEx.match?(~g|@*/../@*|, "@foo/../@bar") == true
     prove GlobEx.match?(~g|@*/../@*|, "@foo/../../@bar") == false
+
+    prove GlobEx.match?(~g|/user/*|, "/user/karlo") == true
+    prove GlobEx.match?(~g|/user/*|, "/kater/karlo") == false
+    prove GlobEx.match?(~g|/*/karlo|, "/kater/karlo") == true
+    prove GlobEx.match?(~g|/*/karlo|, "kater/karlo") == false
+    prove GlobEx.match?(~g|/*/karlo|, "/gustav/gans") == false
+    prove GlobEx.match?(~g|*/karlo|, "kater/karlo") == true
   end
 
   defp ls(glob, opts \\ []) do
