@@ -18,6 +18,12 @@ defmodule GlobEx.Compiler do
   end
 
   # slash
+  defp compile(<<?/, rest::binary>>, [], 0, []) do
+    with {:ok, next} <- compile(rest, [], 1, []) do
+      {:ok, add(:root, next)}
+    end
+  end
+
   defp compile(<<?/, rest::binary>>, results, pos, patterns) do
     result = interim(results, patterns)
 
