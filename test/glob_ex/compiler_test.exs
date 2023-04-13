@@ -12,14 +12,13 @@ defmodule GlobEx.CompilerTest do
       assert compile("foo") == {:ok, [exact: 'foo']}
     end
 
-    test "multi exact" do
-      assert compile("foo/bar") == {:ok, [{:exact, 'foo/bar'}]}
+    test "exact path" do
+      assert compile("foo/bar/baz") == {:ok, [{:exact, 'foo'}, {:exact, 'bar'}, {:exact, 'baz'}]}
+    end
 
-      assert compile("foo/bar/baz/test.txt") ==
-               {:ok, [exact: 'foo/bar/baz/test.txt']}
-
-      assert compile("foo/bar/baz/.test.txt") ==
-               {:ok, [exact: 'foo/bar/baz/.test.txt']}
+    test "exact path with *" do
+      assert compile("foo/bar/baz/*") ==
+               {:ok, [{:exact, 'foo'}, {:exact, 'bar'}, {:exact, 'baz'}, :star]}
     end
 
     test "escape" do
@@ -31,7 +30,7 @@ defmodule GlobEx.CompilerTest do
     end
 
     test "ignore last slash" do
-      assert compile("foo/bar/") == {:ok, [{:exact, 'foo/bar'}]}
+      assert compile("foo/bar/") == {:ok, [{:exact, 'foo'}, {:exact, 'bar'}]}
     end
 
     test "lone *" do

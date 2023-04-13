@@ -549,12 +549,29 @@ defmodule GlobExTest do
     end
 
     test "check for the match?/2 proves" do
-      mkfiles([".foo/.bar/.baz", ".c1"])
+      mkfiles([".foo/.bar/.baz", ".foo/.bar/zab", "oof/.bar/zab", ".c1"])
 
-      assert ".foo/.bar/.baz" in ls(".foo/.bar/.baz")
-      assert ".foo/.bar/.baz" in ls(".foo/.bar/.baz", match_dot: true)
-      assert ".c1" not in ls(".[a-c][0-5]")
-      assert ".c1" in ls(".[a-c][0-5]", match_dot: true)
+      assert ls(".foo/.bar/.baz") == [".foo/.bar/.baz"]
+      assert ls(".foo/.bar/.baz", match_dot: true) == [".foo/.bar/.baz"]
+
+      assert ls(".foo/.bar/*", match_dot: true) == [".foo/.bar/.baz", ".foo/.bar/zab"]
+      assert ls("*/.bar/.baz") == []
+      assert ls("*/.bar/.baz", match_dot: true) == [".foo/.bar/.baz"]
+      assert ls(".[a-c][0-5]") == []
+      assert ls(".[a-c][0-5]", match_dot: true) == [".c1"]
+
+      # Path.wildcard returns files in hiden folders when the glob starts with
+      # exact components. But not when the glob starts with other options.
+      assert ls("*/.bar/*") == []
+
+      assert ls("*/.bar/*", match_dot: true) == [
+               ".foo/.bar/.baz",
+               ".foo/.bar/zab",
+               "oof/.bar/zab"
+             ]
+
+      assert ls(".foo/.bar/*", match_dot: true) == [".foo/.bar/.baz", ".foo/.bar/zab"]
+      assert ls(".foo/.bar/*") == [".foo/.bar/zab"]
     end
   end
 
@@ -566,6 +583,10 @@ defmodule GlobExTest do
     prove GlobEx.match?(~g|foo/bar/baz|, "foo/bar/baz") == true
     prove GlobEx.match?(~g|.foo/.bar/.baz|, ".foo/.bar/.baz") == true
     prove GlobEx.match?(~g|.foo/.bar/.baz|d, ".foo/.bar/.baz") == true
+    prove GlobEx.match?(~g|.foo/.bar/*|, ".foo/.bar/.baz") == false
+    prove GlobEx.match?(~g|.foo/.bar/*|d, ".foo/.bar/.baz") == true
+    prove GlobEx.match?(~g|.foo/.bar/*|, ".foo/.bar/zab") == true
+    prove GlobEx.match?(~g|*/.bar/*|, "oof/.bar/zab") == false
 
     prove GlobEx.match?(~g|a?c|, "abc") == true
     prove GlobEx.match?(~g|a?c/|, "abc") == true
@@ -703,12 +724,22 @@ defmodule GlobExTest do
     prove GlobEx.match?(~g|@*/../@*|, "@foo/../@bar") == true
     prove GlobEx.match?(~g|@*/../@*|, "@foo/../../@bar") == false
 
+    # starting with root
     prove GlobEx.match?(~g|/user/*|, "/user/karlo") == true
     prove GlobEx.match?(~g|/user/*|, "/kater/karlo") == false
     prove GlobEx.match?(~g|/*/karlo|, "/kater/karlo") == true
     prove GlobEx.match?(~g|/*/karlo|, "kater/karlo") == false
     prove GlobEx.match?(~g|/*/karlo|, "/gustav/gans") == false
-    prove GlobEx.match?(~g|*/karlo|, "kater/karlo") == true
+    prove GlobEx.match?(~g|/a/**|d, "/a/b") == true
+    prove GlobEx.match?(~g|/a/**|d, "/a/b/c") == true
+
+    # partly exact path
+    prove GlobEx.match?(~g|a/b/**|, "a/b/c") == true
+    prove GlobEx.match?(~g|a/b/**|, "a/b/c/d") == true
+    prove GlobEx.match?(~g|a/b/**|, "a/x/c/d") == false
+    prove GlobEx.match?(~g|a/b/**|, "x/b/c/d") == false
+    prove GlobEx.match?(~g|a/*/c/d|, "a/x/c/d") == true
+    prove GlobEx.match?(~g|a/*/c/d|, "a/x/c/x") == false
   end
 
   defp ls(glob, opts \\ []) do

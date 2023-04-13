@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3 - 2023/04/13
+
++ Fix for a bug with exact matching components in blog expresion.
+
 ## 0.1.2 - 2023/04/12
 
 + Fix to handle the root folder.
