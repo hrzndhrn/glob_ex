@@ -3,6 +3,7 @@
 ## 0.1.3 - dev
 
 + Fix for a bug with exact matching components in blog expresion.
++ Refactor path split.
 
 ## 0.1.2 - 2023/04/12
 
