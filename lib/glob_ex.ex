@@ -183,12 +183,6 @@ defmodule GlobEx do
     end
   end
 
-  defp match?([{:exact, exact}], _match_dot, path) do
-    path = Enum.map(path, &Enum.reverse/1) |> :filename.join()
-
-    exact == path
-  end
-
   defp match?([], _match_dot, []) do
     true
   end
