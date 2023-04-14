@@ -148,7 +148,10 @@ defmodule GlobEx do
   @spec match?(t(), Path.t()) :: boolean()
   def match?(%GlobEx{compiled: compiled, match_dot: match_dot}, path) do
     path = split(path, [[]])
-    match?(compiled, match_dot, path)
+
+    with {compiled, path} <- exact(compiled, path) do
+      match?(compiled, match_dot, path)
+    end
   end
 
   defp match?([{:exact, '..'} | glob], match_dot, [comp | path]) do
@@ -206,9 +209,17 @@ defmodule GlobEx do
     end
   end
 
-  defp list([], _match_dot, result) do
-    result
+  defp exact([{:exact, exact} | glob], [comp | path]) do
+    if exact == Enum.reverse(comp), do: exact(glob, path), else: false
   end
+
+  defp exact([], []), do: true
+
+  defp exact(glob, path), do: {glob, path}
+
+  defp list(_glob, _match_dot, []), do: []
+
+  defp list([], _match_dot, result), do: result
 
   defp list([:double_star], match_dot, matches) do
     trees(matches, match_dot)
@@ -236,8 +247,10 @@ defmodule GlobEx do
   end
 
   defp list([{:exact, file} | glob], match_dot, [@cwd]) do
-    case file_exists?(file) do
-      true -> list(glob, match_dot, [file])
+    {path, glob} = path(file, glob)
+
+    case file_exists?(path) do
+      true -> list(glob, match_dot, [path])
       false -> []
     end
   end
@@ -246,6 +259,12 @@ defmodule GlobEx do
     matches = matches(matches, match_dot, pattern)
     list(glob, match_dot, matches)
   end
+
+  defp path(path, [{:exact, file} | glob]) do
+    path(:filename.join(path, file), glob)
+  end
+
+  defp path(path, glob), do: {path, glob}
 
   defp matches(matches, match_dot, pattern) do
     Enum.reduce(matches, [], fn match, acc ->
@@ -260,6 +279,10 @@ defmodule GlobEx do
       |> Enum.concat(acc)
     end)
   end
+
+  # defp match_comp?(comp, _match_dot, {:exact, exact}) do
+  #   comp == exact
+  # end
 
   defp match_comp?([?. | _rest], false, _pattern) do
     false

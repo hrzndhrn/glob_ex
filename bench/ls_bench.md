@@ -22,10 +22,10 @@ Benchmark suite executing on the following system:
     <td style="white-space: nowrap">16 GB</td>
   </tr><tr>
     <th style="white-space: nowrap">Elixir Version</th>
-    <td style="white-space: nowrap">1.14.1</td>
+    <td style="white-space: nowrap">1.14.4</td>
   </tr><tr>
     <th style="white-space: nowrap">Erlang Version</th>
-    <td style="white-space: nowrap">25.1.2</td>
+    <td style="white-space: nowrap">25.3</td>
   </tr>
 </table>
 
@@ -66,20 +66,20 @@ Run Time
 
   <tr>
     <td style="white-space: nowrap">GlobEx.ls/1</td>
-    <td style="white-space: nowrap; text-align: right">260.40</td>
-    <td style="white-space: nowrap; text-align: right">3.84 ms</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;29.57%</td>
-    <td style="white-space: nowrap; text-align: right">3.84 ms</td>
-    <td style="white-space: nowrap; text-align: right">7.12 ms</td>
+    <td style="white-space: nowrap; text-align: right">298.09</td>
+    <td style="white-space: nowrap; text-align: right">3.35 ms</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;38.38%</td>
+    <td style="white-space: nowrap; text-align: right">3.28 ms</td>
+    <td style="white-space: nowrap; text-align: right">5.22 ms</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">Path.wildcard/2</td>
-    <td style="white-space: nowrap; text-align: right">260.10</td>
-    <td style="white-space: nowrap; text-align: right">3.84 ms</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;21.91%</td>
-    <td style="white-space: nowrap; text-align: right">3.81 ms</td>
-    <td style="white-space: nowrap; text-align: right">6.04 ms</td>
+    <td style="white-space: nowrap; text-align: right">291.50</td>
+    <td style="white-space: nowrap; text-align: right">3.43 ms</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;18.44%</td>
+    <td style="white-space: nowrap; text-align: right">3.35 ms</td>
+    <td style="white-space: nowrap; text-align: right">5.11 ms</td>
   </tr>
 
 </table>
@@ -94,14 +94,14 @@ Run Time Comparison
     <th style="text-align: right">Slower</th>
   <tr>
     <td style="white-space: nowrap">GlobEx.ls/1</td>
-    <td style="white-space: nowrap;text-align: right">260.40</td>
+    <td style="white-space: nowrap;text-align: right">298.09</td>
     <td>&nbsp;</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">Path.wildcard/2</td>
-    <td style="white-space: nowrap; text-align: right">260.10</td>
-    <td style="white-space: nowrap; text-align: right">1.0x</td>
+    <td style="white-space: nowrap; text-align: right">291.50</td>
+    <td style="white-space: nowrap; text-align: right">1.02x</td>
   </tr>
 
 </table>
@@ -146,20 +146,20 @@ Run Time
 
   <tr>
     <td style="white-space: nowrap">GlobEx.ls/1</td>
-    <td style="white-space: nowrap; text-align: right">272.74</td>
-    <td style="white-space: nowrap; text-align: right">3.67 ms</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;29.70%</td>
-    <td style="white-space: nowrap; text-align: right">3.74 ms</td>
-    <td style="white-space: nowrap; text-align: right">5.76 ms</td>
+    <td style="white-space: nowrap; text-align: right">297.89</td>
+    <td style="white-space: nowrap; text-align: right">3.36 ms</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;21.89%</td>
+    <td style="white-space: nowrap; text-align: right">3.31 ms</td>
+    <td style="white-space: nowrap; text-align: right">5.17 ms</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">Path.wildcard/2</td>
-    <td style="white-space: nowrap; text-align: right">266.51</td>
-    <td style="white-space: nowrap; text-align: right">3.75 ms</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;20.59%</td>
-    <td style="white-space: nowrap; text-align: right">3.74 ms</td>
-    <td style="white-space: nowrap; text-align: right">5.64 ms</td>
+    <td style="white-space: nowrap; text-align: right">285.60</td>
+    <td style="white-space: nowrap; text-align: right">3.50 ms</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;18.41%</td>
+    <td style="white-space: nowrap; text-align: right">3.43 ms</td>
+    <td style="white-space: nowrap; text-align: right">5.18 ms</td>
   </tr>
 
 </table>
@@ -174,14 +174,14 @@ Run Time Comparison
     <th style="text-align: right">Slower</th>
   <tr>
     <td style="white-space: nowrap">GlobEx.ls/1</td>
-    <td style="white-space: nowrap;text-align: right">272.74</td>
+    <td style="white-space: nowrap;text-align: right">297.89</td>
     <td>&nbsp;</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">Path.wildcard/2</td>
-    <td style="white-space: nowrap; text-align: right">266.51</td>
-    <td style="white-space: nowrap; text-align: right">1.02x</td>
+    <td style="white-space: nowrap; text-align: right">285.60</td>
+    <td style="white-space: nowrap; text-align: right">1.04x</td>
   </tr>
 
 </table>
@@ -226,20 +226,20 @@ Run Time
 
   <tr>
     <td style="white-space: nowrap">GlobEx.ls/1</td>
-    <td style="white-space: nowrap; text-align: right">168.26 K</td>
-    <td style="white-space: nowrap; text-align: right">5.94 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;265.19%</td>
-    <td style="white-space: nowrap; text-align: right">5.50 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">27.04 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">194.48 K</td>
+    <td style="white-space: nowrap; text-align: right">5.14 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;269.36%</td>
+    <td style="white-space: nowrap; text-align: right">3.04 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">26.13 &micro;s</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">Path.wildcard/2</td>
-    <td style="white-space: nowrap; text-align: right">115.47 K</td>
-    <td style="white-space: nowrap; text-align: right">8.66 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;162.61%</td>
-    <td style="white-space: nowrap; text-align: right">6.21 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">44.12 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">112.84 K</td>
+    <td style="white-space: nowrap; text-align: right">8.86 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;130.99%</td>
+    <td style="white-space: nowrap; text-align: right">6.29 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">34.29 &micro;s</td>
   </tr>
 
 </table>
@@ -254,14 +254,14 @@ Run Time Comparison
     <th style="text-align: right">Slower</th>
   <tr>
     <td style="white-space: nowrap">GlobEx.ls/1</td>
-    <td style="white-space: nowrap;text-align: right">168.26 K</td>
+    <td style="white-space: nowrap;text-align: right">194.48 K</td>
     <td>&nbsp;</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">Path.wildcard/2</td>
-    <td style="white-space: nowrap; text-align: right">115.47 K</td>
-    <td style="white-space: nowrap; text-align: right">1.46x</td>
+    <td style="white-space: nowrap; text-align: right">112.84 K</td>
+    <td style="white-space: nowrap; text-align: right">1.72x</td>
   </tr>
 
 </table>
@@ -278,13 +278,13 @@ Memory Usage
   </tr>
   <tr>
     <td style="white-space: nowrap">GlobEx.ls/1</td>
-    <td style="white-space: nowrap">1.23 KB</td>
+    <td style="white-space: nowrap">1.25 KB</td>
     <td>&nbsp;</td>
   </tr>
     <tr>
     <td style="white-space: nowrap">Path.wildcard/2</td>
     <td style="white-space: nowrap">2.11 KB</td>
-    <td>1.72x</td>
+    <td>1.69x</td>
   </tr>
 </table>
 
@@ -306,20 +306,20 @@ Run Time
 
   <tr>
     <td style="white-space: nowrap">GlobEx.ls/1</td>
-    <td style="white-space: nowrap; text-align: right">265.22</td>
-    <td style="white-space: nowrap; text-align: right">3.77 ms</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;26.95%</td>
-    <td style="white-space: nowrap; text-align: right">3.83 ms</td>
-    <td style="white-space: nowrap; text-align: right">5.82 ms</td>
+    <td style="white-space: nowrap; text-align: right">290.94</td>
+    <td style="white-space: nowrap; text-align: right">3.44 ms</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;22.52%</td>
+    <td style="white-space: nowrap; text-align: right">3.49 ms</td>
+    <td style="white-space: nowrap; text-align: right">5.16 ms</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">Path.wildcard/2</td>
-    <td style="white-space: nowrap; text-align: right">264.39</td>
-    <td style="white-space: nowrap; text-align: right">3.78 ms</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;22.00%</td>
-    <td style="white-space: nowrap; text-align: right">3.75 ms</td>
-    <td style="white-space: nowrap; text-align: right">5.56 ms</td>
+    <td style="white-space: nowrap; text-align: right">279.23</td>
+    <td style="white-space: nowrap; text-align: right">3.58 ms</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;18.50%</td>
+    <td style="white-space: nowrap; text-align: right">3.53 ms</td>
+    <td style="white-space: nowrap; text-align: right">5.17 ms</td>
   </tr>
 
 </table>
@@ -334,14 +334,14 @@ Run Time Comparison
     <th style="text-align: right">Slower</th>
   <tr>
     <td style="white-space: nowrap">GlobEx.ls/1</td>
-    <td style="white-space: nowrap;text-align: right">265.22</td>
+    <td style="white-space: nowrap;text-align: right">290.94</td>
     <td>&nbsp;</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">Path.wildcard/2</td>
-    <td style="white-space: nowrap; text-align: right">264.39</td>
-    <td style="white-space: nowrap; text-align: right">1.0x</td>
+    <td style="white-space: nowrap; text-align: right">279.23</td>
+    <td style="white-space: nowrap; text-align: right">1.04x</td>
   </tr>
 
 </table>
@@ -386,20 +386,20 @@ Run Time
 
   <tr>
     <td style="white-space: nowrap">GlobEx.ls/1</td>
-    <td style="white-space: nowrap; text-align: right">244.38</td>
-    <td style="white-space: nowrap; text-align: right">4.09 ms</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;23.37%</td>
-    <td style="white-space: nowrap; text-align: right">4.13 ms</td>
-    <td style="white-space: nowrap; text-align: right">6.54 ms</td>
+    <td style="white-space: nowrap; text-align: right">259.72</td>
+    <td style="white-space: nowrap; text-align: right">3.85 ms</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;36.61%</td>
+    <td style="white-space: nowrap; text-align: right">3.80 ms</td>
+    <td style="white-space: nowrap; text-align: right">5.48 ms</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">Path.wildcard/2</td>
-    <td style="white-space: nowrap; text-align: right">237.05</td>
-    <td style="white-space: nowrap; text-align: right">4.22 ms</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;20.70%</td>
-    <td style="white-space: nowrap; text-align: right">4.15 ms</td>
-    <td style="white-space: nowrap; text-align: right">6.60 ms</td>
+    <td style="white-space: nowrap; text-align: right">250.19</td>
+    <td style="white-space: nowrap; text-align: right">4.00 ms</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;27.53%</td>
+    <td style="white-space: nowrap; text-align: right">3.91 ms</td>
+    <td style="white-space: nowrap; text-align: right">5.65 ms</td>
   </tr>
 
 </table>
@@ -414,14 +414,14 @@ Run Time Comparison
     <th style="text-align: right">Slower</th>
   <tr>
     <td style="white-space: nowrap">GlobEx.ls/1</td>
-    <td style="white-space: nowrap;text-align: right">244.38</td>
+    <td style="white-space: nowrap;text-align: right">259.72</td>
     <td>&nbsp;</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">Path.wildcard/2</td>
-    <td style="white-space: nowrap; text-align: right">237.05</td>
-    <td style="white-space: nowrap; text-align: right">1.03x</td>
+    <td style="white-space: nowrap; text-align: right">250.19</td>
+    <td style="white-space: nowrap; text-align: right">1.04x</td>
   </tr>
 
 </table>
