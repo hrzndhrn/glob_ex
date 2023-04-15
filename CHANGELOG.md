@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.3 - dev
+## 0.1.3 - 2023/04/15
 
 + Fix for a bug with exact matching components in blog expresion.
 + Refactor path split.
