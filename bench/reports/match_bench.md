@@ -68,20 +68,20 @@ Run Time
 
   <tr>
     <td style="white-space: nowrap">GlobEx.match?/2</td>
-    <td style="white-space: nowrap; text-align: right">306.88 K</td>
-    <td style="white-space: nowrap; text-align: right">3.26 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;567.97%</td>
-    <td style="white-space: nowrap; text-align: right">2.88 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">315.24 K</td>
+    <td style="white-space: nowrap; text-align: right">3.17 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;484.51%</td>
+    <td style="white-space: nowrap; text-align: right">2.79 &micro;s</td>
     <td style="white-space: nowrap; text-align: right">5.38 &micro;s</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">PathGlob.match?/2</td>
-    <td style="white-space: nowrap; text-align: right">83.86 K</td>
-    <td style="white-space: nowrap; text-align: right">11.92 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;69.77%</td>
-    <td style="white-space: nowrap; text-align: right">10.96 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">25.50 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">85.69 K</td>
+    <td style="white-space: nowrap; text-align: right">11.67 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;61.74%</td>
+    <td style="white-space: nowrap; text-align: right">10.75 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">25.12 &micro;s</td>
   </tr>
 
 </table>
@@ -96,14 +96,14 @@ Run Time Comparison
     <th style="text-align: right">Slower</th>
   <tr>
     <td style="white-space: nowrap">GlobEx.match?/2</td>
-    <td style="white-space: nowrap;text-align: right">306.88 K</td>
+    <td style="white-space: nowrap;text-align: right">315.24 K</td>
     <td>&nbsp;</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">PathGlob.match?/2</td>
-    <td style="white-space: nowrap; text-align: right">83.86 K</td>
-    <td style="white-space: nowrap; text-align: right">3.66x</td>
+    <td style="white-space: nowrap; text-align: right">85.69 K</td>
+    <td style="white-space: nowrap; text-align: right">3.68x</td>
   </tr>
 
 </table>

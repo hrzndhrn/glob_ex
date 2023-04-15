@@ -11,7 +11,7 @@ defmodule MatchBench do
   """
 
   formatter Benchee.Formatters.Markdown,
-    file: Path.join(__DIR__, Macro.underscore(__MODULE__) <> ".md"),
+    file: Path.join([__DIR__, "reports", Macro.underscore(__MODULE__) <> ".md"]),
     description: @description
 
   @path "lib/module/types/of.ex"

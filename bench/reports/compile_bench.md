@@ -64,20 +64,20 @@ Run Time
 
   <tr>
     <td style="white-space: nowrap">compiled_glob</td>
-    <td style="white-space: nowrap; text-align: right">210.25 K</td>
-    <td style="white-space: nowrap; text-align: right">4.76 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;320.20%</td>
-    <td style="white-space: nowrap; text-align: right">2.63 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">24.71 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">135.41 K</td>
+    <td style="white-space: nowrap; text-align: right">7.39 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;224.60%</td>
+    <td style="white-space: nowrap; text-align: right">5.17 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">44.63 &micro;s</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">glob_string</td>
-    <td style="white-space: nowrap; text-align: right">66.09 K</td>
-    <td style="white-space: nowrap; text-align: right">15.13 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;110.76%</td>
-    <td style="white-space: nowrap; text-align: right">7.71 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">60.96 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">58.50 K</td>
+    <td style="white-space: nowrap; text-align: right">17.09 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;108.53%</td>
+    <td style="white-space: nowrap; text-align: right">10.63 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">62.29 &micro;s</td>
   </tr>
 
 </table>
@@ -92,14 +92,14 @@ Run Time Comparison
     <th style="text-align: right">Slower</th>
   <tr>
     <td style="white-space: nowrap">compiled_glob</td>
-    <td style="white-space: nowrap;text-align: right">210.25 K</td>
+    <td style="white-space: nowrap;text-align: right">135.41 K</td>
     <td>&nbsp;</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">glob_string</td>
-    <td style="white-space: nowrap; text-align: right">66.09 K</td>
-    <td style="white-space: nowrap; text-align: right">3.18x</td>
+    <td style="white-space: nowrap; text-align: right">58.50 K</td>
+    <td style="white-space: nowrap; text-align: right">2.31x</td>
   </tr>
 
 </table>

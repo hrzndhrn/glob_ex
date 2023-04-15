@@ -8,7 +8,7 @@ defmodule LsBench do
   """
 
   formatter Benchee.Formatters.Markdown,
-    file: Path.join(__DIR__, Macro.underscore(__MODULE__) <> ".md"),
+    file: Path.join([__DIR__, "reports", Macro.underscore(__MODULE__) <> ".md"]),
     description: @description
 
   setup do
