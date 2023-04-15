@@ -167,14 +167,10 @@ defmodule GlobEx do
   end
 
   defp match?([:double_star] = glob, false, [comp | path]) do
-    comp = Enum.reverse(comp)
-
     if hd(comp) == ?., do: false, else: match?(glob, false, path)
   end
 
   defp match?([:double_star, pattern | rest] = glob, match_dot, [comp | path]) do
-    comp = Enum.reverse(comp)
-
     with true <- match_dot?(comp, match_dot) do
       case match_comp?(comp, pattern) do
         true -> match?(rest, match_dot, path) or match?(glob, match_dot, path)
@@ -196,15 +192,13 @@ defmodule GlobEx do
   end
 
   defp match?([pattern | glob], match_dot, [comp | path]) do
-    comp = Enum.reverse(comp)
-
     with true <- match_comp?(comp, match_dot, pattern) do
       match?(glob, match_dot, path)
     end
   end
 
   defp exact([{:exact, exact} | glob], [comp | path]) do
-    if exact == Enum.reverse(comp), do: exact(glob, path), else: false
+    if exact == comp, do: exact(glob, path), else: false
   end
 
   defp exact([], []), do: true
@@ -273,10 +267,6 @@ defmodule GlobEx do
       |> Enum.concat(acc)
     end)
   end
-
-  # defp match_comp?(comp, _match_dot, {:exact, exact}) do
-  #   comp == exact
-  # end
 
   defp match_comp?([?. | _rest], false, _pattern) do
     false
@@ -385,21 +375,11 @@ defmodule GlobEx do
     false
   end
 
-  defp ends_with?(a, b) do
-    a |> Enum.reverse() |> do_ends_with(b)
-  end
+  defp ends_with?(a, b), do: a |> Enum.reverse() |> do_ends_with?(b)
 
-  defp do_ends_with(_a, []) do
-    true
-  end
-
-  defp do_ends_with([x | as], [x | bs]) do
-    do_ends_with(as, bs)
-  end
-
-  defp do_ends_with(_a, _b) do
-    false
-  end
+  defp do_ends_with?(_a, []), do: true
+  defp do_ends_with?([x | as], [x | bs]), do: do_ends_with?(as, bs)
+  defp do_ends_with?(_a, _b), do: false
 
   defp list_dir(cwd) do
     case :file.list_dir(cwd) do
@@ -469,16 +449,16 @@ defmodule GlobEx do
     end
   end
 
-  defp split(<<>>, acc) do
-    Enum.reverse(acc)
+  defp split(<<>>, [head | tail]) do
+    Enum.reverse([Enum.reverse(head) | tail])
   end
 
-  defp split(<<?/>>, acc) do
-    Enum.reverse(acc)
+  defp split(<<?/>>, [head | tail]) do
+    Enum.reverse([Enum.reverse(head) | tail])
   end
 
-  defp split(<<?/, rest::binary>>, acc) do
-    split(rest, [[] | acc])
+  defp split(<<?/, rest::binary>>, [head | tail]) do
+    split(rest, [[], Enum.reverse(head) | tail])
   end
 
   defp split(<<char::utf8, rest::binary>>, [comp | acc]) do
@@ -502,7 +482,7 @@ defmodule GlobEx do
   end
 
   defp do_file_exists?([comp, '..' | path], acc) do
-    dir = :filename.join(acc, Enum.reverse(comp))
+    dir = :filename.join(acc, comp)
 
     case :filelib.is_dir(dir) do
       true -> do_file_exists?(path, :filename.join(dir, '..'))
@@ -511,7 +491,7 @@ defmodule GlobEx do
   end
 
   defp do_file_exists?([comp | path], acc) do
-    acc = :filename.join(acc, Enum.reverse(comp))
+    acc = :filename.join(acc, comp)
     do_file_exists?(path, acc)
   end
 
