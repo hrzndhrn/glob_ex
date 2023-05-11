@@ -228,5 +228,9 @@ defmodule GlobEx.CompilerTest do
                   {:alt, [[{:ends_with, 'xe.'}], [{:ends_with, 'sxe.'}]]}
                 ]}
     end
+
+    test "windows root" do
+      assert compile("x:/foo/*") == {:ok, [{:root, 'x:/'}, {:exact, 'foo'}, :star]}
+    end
   end
 end

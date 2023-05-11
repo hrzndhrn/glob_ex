@@ -139,6 +139,15 @@ defmodule GlobExTest do
       assert GlobEx.ls(~g|.xyz|) == [".xyz"]
     end
 
+    test "literal match from root" do
+      file = "test.xyz"
+      mkfiles([file])
+
+      path = Path.join(File.cwd!(), file)
+
+      assert ls(path) == [path]
+    end
+
     test "glob with UTF-8" do
       mkfiles(["héllò"])
 
@@ -160,6 +169,16 @@ defmodule GlobExTest do
 
       assert ls("**", match_dot: true) == [".xyz", "abc", "abcdef", "glurf"]
       assert ls("**") == ["abc", "abcdef", "glurf"]
+    end
+
+    test "matching with pattern * from rott" do
+      files = ["a", "b", "c"]
+      mkfiles(files)
+
+      glob = File.cwd!() <> "/*"
+      paths = Enum.map(files, fn file -> Path.join(File.cwd!(), file) end)
+
+      assert ls(glob) == paths
     end
 
     test "matching with pattern ? (simple)" do
