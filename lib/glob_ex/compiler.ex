@@ -17,13 +17,21 @@ defmodule GlobEx.Compiler do
     {:ok, result}
   end
 
-  # slash
+  # root
   defp compile(<<?/, rest::binary>>, [], 0, []) do
     with {:ok, next} <- compile(rest, [], 1, []) do
       {:ok, add(:root, next)}
     end
   end
 
+  # windows root
+  defp compile(<<vol, ?:, ?/, rest::binary>>, [], 0, []) do
+    with {:ok, next} <- compile(rest, [], 1, []) do
+      {:ok, add({:root, [vol | ':/']}, next)}
+    end
+  end
+
+  # slash
   defp compile(<<?/, rest::binary>>, results, pos, patterns) do
     result = interim(results, patterns)
 
@@ -78,9 +86,6 @@ defmodule GlobEx.Compiler do
   # alt pattern
   defp compile(<<?{, rest::binary>>, compiled, pos, patterns) do
     case alt(rest, <<>>, [], pos + 1) do
-      # {:ok, rest, [[{pattern, result}]], pos} ->
-      #   compile(rest, [{pattern, result} | compiled], pos, [pattern | patterns])
-
       {:ok, rest, alt, pos} ->
         compile(rest, [{:alt, alt} | compiled], pos, [:alt | patterns])
 

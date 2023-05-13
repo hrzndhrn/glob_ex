@@ -53,6 +53,7 @@ defmodule GlobEx do
   @type t :: %__MODULE__{source: binary(), match_dot: boolean(), compiled: [term()]}
 
   @cwd '.'
+  @root '/'
 
   @doc """
   Compiles the glob expression and raises GlobEx.CompileError in case of errors.
@@ -127,7 +128,7 @@ defmodule GlobEx do
   @spec ls(t()) :: [Path.t()]
   def ls(%GlobEx{compiled: compiled, match_dot: match_dot}) do
     compiled
-    |> list(match_dot, [@cwd])
+    |> list(match_dot)
     |> Enum.map(&IO.chardata_to_string/1)
     |> Enum.sort()
   end
@@ -205,9 +206,25 @@ defmodule GlobEx do
 
   defp exact(glob, path), do: {glob, path}
 
+  defp list([:root | glob], match_dot), do: list(glob, match_dot, [@root])
+
+  defp list([{:root, vol} | glob], match_dot) do
+    list(glob, match_dot, [vol])
+  end
+
+  defp list(glob, match_dot), do: list(glob, match_dot, [@cwd])
+
   defp list(_glob, _match_dot, []), do: []
 
   defp list([], _match_dot, result), do: result
+
+  defp list([{:exact, _file} | _glob] = glob, match_dot, [match]) when match in [@cwd, @root] do
+    list_exact(glob, match_dot, match)
+  end
+
+  defp list([{:exact, _file} | _glob] = glob, match_dot, [[_vol | ':/'] = match]) do
+    list_exact(glob, match_dot, match)
+  end
 
   defp list([:double_star], match_dot, matches) do
     trees(matches, match_dot)
@@ -234,18 +251,25 @@ defmodule GlobEx do
     list(glob, match_dot, matches)
   end
 
-  defp list([{:exact, file} | glob], match_dot, [@cwd]) do
+  defp list([pattern | glob], match_dot, matches) do
+    matches = matches(matches, match_dot, pattern)
+    list(glob, match_dot, matches)
+  end
+
+  defp list_exact([{:exact, file} | glob], match_dot, dir) do
     {path, glob} = path(file, glob)
+
+    path =
+      case dir do
+        @cwd -> path
+        @root -> '/' ++ path
+        vol -> vol ++ path
+      end
 
     case file_exists?(path) do
       true -> list(glob, match_dot, [path])
       false -> []
     end
-  end
-
-  defp list([pattern | glob], match_dot, matches) do
-    matches = matches(matches, match_dot, pattern)
-    list(glob, match_dot, matches)
   end
 
   defp path(path, [{:exact, file} | glob]) do
@@ -259,6 +283,8 @@ defmodule GlobEx do
       match
       |> list_dir()
       |> Enum.reduce([], fn comp, acc ->
+        match = if match == '/', do: '', else: match
+
         case match_comp?(comp, match_dot, pattern) do
           true -> [join(match, comp) | acc]
           false -> acc
@@ -474,11 +500,22 @@ defmodule GlobEx do
     end
   end
 
+  defp do_file_exists?([vol, ?:, ?/ | file]) do
+    file
+    |> IO.chardata_to_string()
+    |> do_file_exists?([vol | ':/'])
+  end
+
   defp do_file_exists?(file) do
     file
     |> IO.chardata_to_string()
-    |> split([[]])
     |> do_file_exists?(@cwd)
+  end
+
+  defp do_file_exists?(file, dir) when is_binary(file) do
+    file
+    |> split([[]])
+    |> do_file_exists?(dir)
   end
 
   defp do_file_exists?([comp, '..' | path], acc) do

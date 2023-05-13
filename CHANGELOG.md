@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.4 - 2023/05/13
+
++ Fix for `GlobEx.ls/1` when the glob starts with `/`.
+
 ## 0.1.3 - 2023/04/15
 
 + Fix for a bug with exact matching components in blog expresion.
