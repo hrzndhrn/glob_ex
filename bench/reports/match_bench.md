@@ -3,7 +3,7 @@ Benchmark GlobEx.match?/2
 Comparing `GlobEx.match?/2` with `PathGlob.match?/2`.
 
 [PathGlob](https://hex.pm/packages/path_glob) is a great package to check if a
-glob expresion matches a path. The approach here is to transform the glob into
+glob expression matches a path. The approach here is to transform the glob into
 a regex.
 
 
@@ -68,20 +68,20 @@ Run Time
 
   <tr>
     <td style="white-space: nowrap">GlobEx.match?/2</td>
-    <td style="white-space: nowrap; text-align: right">311.22 K</td>
-    <td style="white-space: nowrap; text-align: right">3.21 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;568.15%</td>
-    <td style="white-space: nowrap; text-align: right">2.67 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">5.88 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">29.76</td>
+    <td style="white-space: nowrap; text-align: right">33.60 ms</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;0.35%</td>
+    <td style="white-space: nowrap; text-align: right">33.60 ms</td>
+    <td style="white-space: nowrap; text-align: right">33.98 ms</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">PathGlob.match?/2</td>
-    <td style="white-space: nowrap; text-align: right">92.26 K</td>
-    <td style="white-space: nowrap; text-align: right">10.84 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;89.20%</td>
-    <td style="white-space: nowrap; text-align: right">9.79 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">35.67 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">9.19</td>
+    <td style="white-space: nowrap; text-align: right">108.85 ms</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;1.30%</td>
+    <td style="white-space: nowrap; text-align: right">108.49 ms</td>
+    <td style="white-space: nowrap; text-align: right">116.88 ms</td>
   </tr>
 
 </table>
@@ -96,14 +96,14 @@ Run Time Comparison
     <th style="text-align: right">Slower</th>
   <tr>
     <td style="white-space: nowrap">GlobEx.match?/2</td>
-    <td style="white-space: nowrap;text-align: right">311.22 K</td>
+    <td style="white-space: nowrap;text-align: right">29.76</td>
     <td>&nbsp;</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">PathGlob.match?/2</td>
-    <td style="white-space: nowrap; text-align: right">92.26 K</td>
-    <td style="white-space: nowrap; text-align: right">3.37x</td>
+    <td style="white-space: nowrap; text-align: right">9.19</td>
+    <td style="white-space: nowrap; text-align: right">3.24x</td>
   </tr>
 
 </table>
@@ -120,12 +120,12 @@ Memory Usage
   </tr>
   <tr>
     <td style="white-space: nowrap">GlobEx.match?/2</td>
-    <td style="white-space: nowrap">6.67 KB</td>
+    <td style="white-space: nowrap">65.31 MB</td>
     <td>&nbsp;</td>
   </tr>
     <tr>
     <td style="white-space: nowrap">PathGlob.match?/2</td>
-    <td style="white-space: nowrap">22.56 KB</td>
+    <td style="white-space: nowrap">220.79 MB</td>
     <td>3.38x</td>
   </tr>
 </table>
@@ -142,12 +142,12 @@ Reduction Count
   </tr>
   <tr>
     <td style="white-space: nowrap">GlobEx.match?/2</td>
-    <td style="white-space: nowrap">366</td>
+    <td style="white-space: nowrap">3.51 M</td>
     <td>&nbsp;</td>
   </tr>
     <tr>
     <td style="white-space: nowrap">PathGlob.match?/2</td>
-    <td style="white-space: nowrap">897</td>
-    <td>2.45x</td>
+    <td style="white-space: nowrap">8.20 M</td>
+    <td>2.34x</td>
   </tr>
 </table>
