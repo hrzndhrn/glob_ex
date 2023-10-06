@@ -3,7 +3,7 @@ Benchmark GlobEx.match?/2
 Comparing `GlobEx.match?/2` with `PathGlob.match?/2`.
 
 [PathGlob](https://hex.pm/packages/path_glob) is a great package to check if a
-glob expresion matches a path. The approach here is to transform the glob into
+glob expression matches a path. The approach here is to transform the glob into
 a regex.
 
 
@@ -26,10 +26,10 @@ Benchmark suite executing on the following system:
     <td style="white-space: nowrap">16 GB</td>
   </tr><tr>
     <th style="white-space: nowrap">Elixir Version</th>
-    <td style="white-space: nowrap">1.14.4</td>
+    <td style="white-space: nowrap">1.15.6</td>
   </tr><tr>
     <th style="white-space: nowrap">Erlang Version</th>
-    <td style="white-space: nowrap">25.3</td>
+    <td style="white-space: nowrap">26.1.1</td>
   </tr>
 </table>
 
@@ -68,20 +68,20 @@ Run Time
 
   <tr>
     <td style="white-space: nowrap">GlobEx.match?/2</td>
-    <td style="white-space: nowrap; text-align: right">315.24 K</td>
-    <td style="white-space: nowrap; text-align: right">3.17 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;484.51%</td>
-    <td style="white-space: nowrap; text-align: right">2.79 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">5.38 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">29.76</td>
+    <td style="white-space: nowrap; text-align: right">33.60 ms</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;0.35%</td>
+    <td style="white-space: nowrap; text-align: right">33.60 ms</td>
+    <td style="white-space: nowrap; text-align: right">33.98 ms</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">PathGlob.match?/2</td>
-    <td style="white-space: nowrap; text-align: right">85.69 K</td>
-    <td style="white-space: nowrap; text-align: right">11.67 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;61.74%</td>
-    <td style="white-space: nowrap; text-align: right">10.75 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">25.12 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">9.19</td>
+    <td style="white-space: nowrap; text-align: right">108.85 ms</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;1.30%</td>
+    <td style="white-space: nowrap; text-align: right">108.49 ms</td>
+    <td style="white-space: nowrap; text-align: right">116.88 ms</td>
   </tr>
 
 </table>
@@ -96,14 +96,14 @@ Run Time Comparison
     <th style="text-align: right">Slower</th>
   <tr>
     <td style="white-space: nowrap">GlobEx.match?/2</td>
-    <td style="white-space: nowrap;text-align: right">315.24 K</td>
+    <td style="white-space: nowrap;text-align: right">29.76</td>
     <td>&nbsp;</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">PathGlob.match?/2</td>
-    <td style="white-space: nowrap; text-align: right">85.69 K</td>
-    <td style="white-space: nowrap; text-align: right">3.68x</td>
+    <td style="white-space: nowrap; text-align: right">9.19</td>
+    <td style="white-space: nowrap; text-align: right">3.24x</td>
   </tr>
 
 </table>
@@ -120,12 +120,34 @@ Memory Usage
   </tr>
   <tr>
     <td style="white-space: nowrap">GlobEx.match?/2</td>
-    <td style="white-space: nowrap">6.63 KB</td>
+    <td style="white-space: nowrap">65.31 MB</td>
     <td>&nbsp;</td>
   </tr>
     <tr>
     <td style="white-space: nowrap">PathGlob.match?/2</td>
-    <td style="white-space: nowrap">23.02 KB</td>
-    <td>3.48x</td>
+    <td style="white-space: nowrap">220.79 MB</td>
+    <td>3.38x</td>
+  </tr>
+</table>
+
+
+
+Reduction Count
+
+<table style="width: 1%">
+  <tr>
+    <th>Name</th>
+    <th style="text-align: right">Average</th>
+    <th style="text-align: right">Factor</th>
+  </tr>
+  <tr>
+    <td style="white-space: nowrap">GlobEx.match?/2</td>
+    <td style="white-space: nowrap">3.51 M</td>
+    <td>&nbsp;</td>
+  </tr>
+    <tr>
+    <td style="white-space: nowrap">PathGlob.match?/2</td>
+    <td style="white-space: nowrap">8.20 M</td>
+    <td>2.34x</td>
   </tr>
 </table>

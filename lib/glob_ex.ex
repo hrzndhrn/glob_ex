@@ -127,10 +127,8 @@ defmodule GlobEx do
   """
   @spec ls(t()) :: [Path.t()]
   def ls(%GlobEx{compiled: compiled, match_dot: match_dot}) do
-    compiled
-    |> list(match_dot)
-    |> Enum.map(&IO.chardata_to_string/1)
-    |> Enum.sort()
+    list = for item <- list(compiled, match_dot), do: IO.chardata_to_string(item)
+    Enum.sort(list)
   end
 
   @doc """
@@ -240,19 +238,20 @@ defmodule GlobEx do
   end
 
   defp list([{:exact, '..'} | glob], match_dot, matches) do
-    matches =
-      Enum.reduce(matches, [], fn match, acc ->
-        case :filelib.is_dir(match) do
-          true -> [join(match, '..') | acc]
-          false -> acc
-        end
-      end)
+    matches = for match <- matches, :filelib.is_dir(match), do: join(match, '..')
 
     list(glob, match_dot, matches)
   end
 
   defp list([pattern | glob], match_dot, matches) do
-    matches = matches(matches, match_dot, pattern)
+    matches =
+      for match <- matches,
+          comp <- list_dir(match),
+          match_comp?(comp, match_dot, pattern) do
+        match = if match == '/', do: '', else: match
+        join(match, comp)
+      end
+
     list(glob, match_dot, matches)
   end
 
@@ -277,22 +276,6 @@ defmodule GlobEx do
   end
 
   defp path(path, glob), do: {path, glob}
-
-  defp matches(matches, match_dot, pattern) do
-    Enum.reduce(matches, [], fn match, acc ->
-      match
-      |> list_dir()
-      |> Enum.reduce([], fn comp, acc ->
-        match = if match == '/', do: '', else: match
-
-        case match_comp?(comp, match_dot, pattern) do
-          true -> [join(match, comp) | acc]
-          false -> acc
-        end
-      end)
-      |> Enum.concat(acc)
-    end)
-  end
 
   defp match_comp?([?. | _rest], false, _pattern) do
     false
@@ -401,7 +384,7 @@ defmodule GlobEx do
     false
   end
 
-  defp ends_with?(a, b), do: a |> Enum.reverse() |> do_ends_with?(b)
+  defp ends_with?(a, b), do: a |> :lists.reverse() |> do_ends_with?(b)
 
   defp do_ends_with?(_a, []), do: true
   defp do_ends_with?([x | as], [x | bs]), do: do_ends_with?(as, bs)
@@ -423,41 +406,24 @@ defmodule GlobEx do
   end
 
   defp trees(dirs, match_dot, acc) do
-    dirs = dirs(dirs, match_dot)
+    dirs =
+      for dir <- dirs,
+          sub_dir <- list_dir(dir),
+          match_dot?(sub_dir, match_dot),
+          do: join(dir, sub_dir)
+
     trees(dirs, match_dot, dirs ++ acc)
-  end
-
-  defp dirs(dirs, match_dot) do
-    Enum.reduce(dirs, [], fn dir, acc ->
-      case list_dir(dir) do
-        [] -> acc
-        list -> sub_dirs(list, dir, match_dot, acc)
-      end
-    end)
-  end
-
-  defp sub_dirs(sub_dirs, dir, match_dot, acc) do
-    sub_dirs
-    |> Enum.reduce([], fn sub_dir, sub_dirs ->
-      case match_dot?(sub_dir, match_dot) do
-        true -> [join(dir, sub_dir) | sub_dirs]
-        false -> sub_dirs
-      end
-    end)
-    |> Enum.concat(acc)
   end
 
   defp double_star_matches([], _match_dot, _pattern, acc), do: acc
 
   defp double_star_matches(matches, match_dot, pattern, acc) do
     {matches, acc} =
-      Enum.reduce(matches, {[], acc}, fn match, {matches, acc} ->
-        match
-        |> list_dir()
-        |> Enum.reduce({matches, acc}, fn item, {matches, acc} ->
-          double_star_match(item, match_dot, pattern, match, matches, acc)
-        end)
-      end)
+      for match <- matches,
+          item <- list_dir(match),
+          reduce: {[], acc} do
+        {matches, acc} -> double_star_match(item, match_dot, pattern, match, matches, acc)
+      end
 
     double_star_matches(matches, match_dot, pattern, acc)
   end
@@ -476,15 +442,15 @@ defmodule GlobEx do
   end
 
   defp split(<<>>, [head | tail]) do
-    Enum.reverse([Enum.reverse(head) | tail])
+    :lists.reverse([:lists.reverse(head) | tail])
   end
 
   defp split(<<?/>>, [head | tail]) do
-    Enum.reverse([Enum.reverse(head) | tail])
+    :lists.reverse([:lists.reverse(head) | tail])
   end
 
   defp split(<<?/, rest::binary>>, [head | tail]) do
-    split(rest, [[], Enum.reverse(head) | tail])
+    split(rest, [[], :lists.reverse(head) | tail])
   end
 
   defp split(<<char::utf8, rest::binary>>, [comp | acc]) do

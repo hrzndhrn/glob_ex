@@ -22,10 +22,10 @@ Benchmark suite executing on the following system:
     <td style="white-space: nowrap">16 GB</td>
   </tr><tr>
     <th style="white-space: nowrap">Elixir Version</th>
-    <td style="white-space: nowrap">1.14.4</td>
+    <td style="white-space: nowrap">1.15.6</td>
   </tr><tr>
     <th style="white-space: nowrap">Erlang Version</th>
-    <td style="white-space: nowrap">25.3</td>
+    <td style="white-space: nowrap">26.1.1</td>
   </tr>
 </table>
 
@@ -64,20 +64,20 @@ Run Time
 
   <tr>
     <td style="white-space: nowrap">compiled_glob</td>
-    <td style="white-space: nowrap; text-align: right">135.41 K</td>
-    <td style="white-space: nowrap; text-align: right">7.39 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;224.60%</td>
-    <td style="white-space: nowrap; text-align: right">5.17 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">44.63 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">251.91</td>
+    <td style="white-space: nowrap; text-align: right">3.97 ms</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;19.26%</td>
+    <td style="white-space: nowrap; text-align: right">4.01 ms</td>
+    <td style="white-space: nowrap; text-align: right">5.53 ms</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">glob_string</td>
-    <td style="white-space: nowrap; text-align: right">58.50 K</td>
-    <td style="white-space: nowrap; text-align: right">17.09 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;108.53%</td>
-    <td style="white-space: nowrap; text-align: right">10.63 &micro;s</td>
-    <td style="white-space: nowrap; text-align: right">62.29 &micro;s</td>
+    <td style="white-space: nowrap; text-align: right">249.40</td>
+    <td style="white-space: nowrap; text-align: right">4.01 ms</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;19.79%</td>
+    <td style="white-space: nowrap; text-align: right">4.05 ms</td>
+    <td style="white-space: nowrap; text-align: right">5.64 ms</td>
   </tr>
 
 </table>
@@ -92,14 +92,14 @@ Run Time Comparison
     <th style="text-align: right">Slower</th>
   <tr>
     <td style="white-space: nowrap">compiled_glob</td>
-    <td style="white-space: nowrap;text-align: right">135.41 K</td>
+    <td style="white-space: nowrap;text-align: right">251.91</td>
     <td>&nbsp;</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">glob_string</td>
-    <td style="white-space: nowrap; text-align: right">58.50 K</td>
-    <td style="white-space: nowrap; text-align: right">2.31x</td>
+    <td style="white-space: nowrap; text-align: right">249.40</td>
+    <td style="white-space: nowrap; text-align: right">1.01x</td>
   </tr>
 
 </table>
@@ -116,12 +116,34 @@ Memory Usage
   </tr>
   <tr>
     <td style="white-space: nowrap">compiled_glob</td>
-    <td style="white-space: nowrap">0.42 KB</td>
+    <td style="white-space: nowrap">473.45 KB</td>
     <td>&nbsp;</td>
   </tr>
     <tr>
     <td style="white-space: nowrap">glob_string</td>
-    <td style="white-space: nowrap">1.25 KB</td>
-    <td>2.96x</td>
+    <td style="white-space: nowrap">498.23 KB</td>
+    <td>1.05x</td>
+  </tr>
+</table>
+
+
+
+Reduction Count
+
+<table style="width: 1%">
+  <tr>
+    <th>Name</th>
+    <th style="text-align: right">Average</th>
+    <th style="text-align: right">Factor</th>
+  </tr>
+  <tr>
+    <td style="white-space: nowrap">compiled_glob</td>
+    <td style="white-space: nowrap">44.02 K</td>
+    <td>&nbsp;</td>
+  </tr>
+    <tr>
+    <td style="white-space: nowrap">glob_string</td>
+    <td style="white-space: nowrap">44.79 K</td>
+    <td>1.02x</td>
   </tr>
 </table>
