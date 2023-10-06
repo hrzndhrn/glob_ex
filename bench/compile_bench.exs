@@ -20,7 +20,7 @@ defmodule CompileBench do
     end)
   end
 
-  @glob "mix.exs"
+  @glob "{lib,test}/**/*.{ex,exs}"
   @compiled_glob GlobEx.compile!(@glob)
 
   job glob_string, do: @glob |> GlobEx.compile!() |> GlobEx.ls()

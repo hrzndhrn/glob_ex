@@ -20,17 +20,7 @@ defmodule LsBench do
     end)
   end
 
-  inputs do
-    globs = [
-      "{lib,test}/**/*.{ex,exs}",
-      "{lib,test}/**/*.java",
-      "**/enum.ex",
-      "**/enum*",
-      "mix.exs"
-    ]
-
-    Enum.into(globs, %{}, fn input -> {input, input} end)
-  end
+  inputs %{"{lib,test}/**/*.{ex,exs}" => "{lib,test}/**/*.{ex,exs}"}
 
   job "GlobEx.ls/1", glob do
     glob |> GlobEx.compile!() |> GlobEx.ls()

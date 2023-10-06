@@ -12,5 +12,6 @@ end)
 
 BencheeDsl.run(
   time: 10,
-  memory_time: 2
+  memory_time: 2,
+  reduction_time: 2
 )
