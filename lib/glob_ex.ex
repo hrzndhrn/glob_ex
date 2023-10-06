@@ -409,9 +409,8 @@ defmodule GlobEx do
     dirs =
       for dir <- dirs,
           sub_dir <- list_dir(dir),
-          match_dot?(sub_dir, match_dot) do
-        join(dir, sub_dir)
-      end
+          match_dot?(sub_dir, match_dot),
+          do: join(dir, sub_dir)
 
     trees(dirs, match_dot, dirs ++ acc)
   end
