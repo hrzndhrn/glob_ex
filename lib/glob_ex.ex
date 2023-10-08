@@ -127,8 +127,10 @@ defmodule GlobEx do
   """
   @spec ls(t()) :: [Path.t()]
   def ls(%GlobEx{compiled: compiled, match_dot: match_dot}) do
-    list = for item <- list(compiled, match_dot), do: IO.chardata_to_string(item)
-    Enum.sort(list)
+    compiled
+    |> list(match_dot)
+    |> :lists.sort()
+    |> Enum.map(&:unicode.characters_to_binary/1)
   end
 
   @doc """
@@ -333,7 +335,7 @@ defmodule GlobEx do
   end
 
   defp join(left, right) do
-    left ++ '/' ++ right
+    left ++ [?/ | right]
   end
 
   defp seq?([:star], _file) do
@@ -390,29 +392,25 @@ defmodule GlobEx do
   defp do_ends_with?([x | as], [x | bs]), do: do_ends_with?(as, bs)
   defp do_ends_with?(_a, _b), do: false
 
+  @compile {:inline, list_dir: 1}
   defp list_dir(cwd) do
     case :file.list_dir(cwd) do
       {:ok, files} -> files
-      {:error, _reason} -> []
+      _else -> []
     end
   end
 
-  defp trees(dirs, match_dot) do
-    trees(dirs, match_dot, [])
-  end
-
-  defp trees([], _match_dot, acc) do
-    acc
-  end
-
-  defp trees(dirs, match_dot, acc) do
+  defp trees(dirs, match_dot, acc \\ []) do
     dirs =
       for dir <- dirs,
           sub_dir <- list_dir(dir),
           match_dot?(sub_dir, match_dot),
           do: join(dir, sub_dir)
 
-    trees(dirs, match_dot, dirs ++ acc)
+    case dirs do
+      [] -> acc
+      dirs -> trees(dirs, match_dot, dirs ++ acc)
+    end
   end
 
   defp double_star_matches([], _match_dot, _pattern, acc), do: acc

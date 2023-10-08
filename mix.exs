@@ -6,7 +6,7 @@ defmodule GlobEx.MixProject do
   def project do
     [
       app: :glob_ex,
-      version: "0.1.5",
+      version: "0.1.6",
       elixir: "~> 1.12",
       description: description(),
       source_url: @github,
