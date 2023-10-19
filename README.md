@@ -39,9 +39,8 @@ iex(7)> GlobEx.ls(~g|*.exs|d) # files starting with a dot will not be treated sp
 
 The repo contains some benchmarks.
 
-The [benchmark](https://github.com/hrzndhrn/glob_ex/blob/main/bench/ls_bench.md)
-"comparing `GlobEx.ls/1` and `Path.wildcard/2`" shows that both implementations
-are equally fast.
+The benchmark [`ls_bench`](https://github.com/hrzndhrn/glob_ex/blob/main/bench/reports/ls_bench.md)
+shows that `GlobEx.ls/2` and `Path.wildcard/2` are equally fast.
 
-Another [benchmark](https://github.com/hrzndhrn/glob_ex/blob/main/bench/match_bench.md) compares `GlobEx.match?/2` with
+Another [benchmark](https://github.com/hrzndhrn/glob_ex/blob/main/bench/reports/match_bench.md) compares `GlobEx.match?/2` with
 [`GlobPath.match/3`](https://hexdocs.pm/path_glob/PathGlob.html#match?/3).
