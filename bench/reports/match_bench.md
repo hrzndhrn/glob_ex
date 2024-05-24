@@ -26,10 +26,10 @@ Benchmark suite executing on the following system:
     <td style="white-space: nowrap">16 GB</td>
   </tr><tr>
     <th style="white-space: nowrap">Elixir Version</th>
-    <td style="white-space: nowrap">1.15.6</td>
+    <td style="white-space: nowrap">1.17.0-rc.0</td>
   </tr><tr>
     <th style="white-space: nowrap">Erlang Version</th>
-    <td style="white-space: nowrap">26.1.1</td>
+    <td style="white-space: nowrap">27.0</td>
   </tr>
 </table>
 
@@ -68,20 +68,20 @@ Run Time
 
   <tr>
     <td style="white-space: nowrap">GlobEx.match?/2</td>
-    <td style="white-space: nowrap; text-align: right">29.76</td>
-    <td style="white-space: nowrap; text-align: right">33.60 ms</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;0.35%</td>
-    <td style="white-space: nowrap; text-align: right">33.60 ms</td>
-    <td style="white-space: nowrap; text-align: right">33.98 ms</td>
+    <td style="white-space: nowrap; text-align: right">34.64</td>
+    <td style="white-space: nowrap; text-align: right">28.87 ms</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;7.93%</td>
+    <td style="white-space: nowrap; text-align: right">28.65 ms</td>
+    <td style="white-space: nowrap; text-align: right">30.56 ms</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">PathGlob.match?/2</td>
-    <td style="white-space: nowrap; text-align: right">9.19</td>
-    <td style="white-space: nowrap; text-align: right">108.85 ms</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;1.30%</td>
-    <td style="white-space: nowrap; text-align: right">108.49 ms</td>
-    <td style="white-space: nowrap; text-align: right">116.88 ms</td>
+    <td style="white-space: nowrap; text-align: right">10.37</td>
+    <td style="white-space: nowrap; text-align: right">96.44 ms</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;3.30%</td>
+    <td style="white-space: nowrap; text-align: right">96.02 ms</td>
+    <td style="white-space: nowrap; text-align: right">126.69 ms</td>
   </tr>
 
 </table>
@@ -96,14 +96,14 @@ Run Time Comparison
     <th style="text-align: right">Slower</th>
   <tr>
     <td style="white-space: nowrap">GlobEx.match?/2</td>
-    <td style="white-space: nowrap;text-align: right">29.76</td>
+    <td style="white-space: nowrap;text-align: right">34.64</td>
     <td>&nbsp;</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">PathGlob.match?/2</td>
-    <td style="white-space: nowrap; text-align: right">9.19</td>
-    <td style="white-space: nowrap; text-align: right">3.24x</td>
+    <td style="white-space: nowrap; text-align: right">10.37</td>
+    <td style="white-space: nowrap; text-align: right">3.34x</td>
   </tr>
 
 </table>
@@ -120,13 +120,13 @@ Memory Usage
   </tr>
   <tr>
     <td style="white-space: nowrap">GlobEx.match?/2</td>
-    <td style="white-space: nowrap">65.31 MB</td>
+    <td style="white-space: nowrap">62.87 MB</td>
     <td>&nbsp;</td>
   </tr>
     <tr>
     <td style="white-space: nowrap">PathGlob.match?/2</td>
-    <td style="white-space: nowrap">220.79 MB</td>
-    <td>3.38x</td>
+    <td style="white-space: nowrap">217.05 MB</td>
+    <td>3.45x</td>
   </tr>
 </table>
 
@@ -142,12 +142,12 @@ Reduction Count
   </tr>
   <tr>
     <td style="white-space: nowrap">GlobEx.match?/2</td>
-    <td style="white-space: nowrap">3.51 M</td>
+    <td style="white-space: nowrap">3.50 M</td>
     <td>&nbsp;</td>
   </tr>
     <tr>
     <td style="white-space: nowrap">PathGlob.match?/2</td>
-    <td style="white-space: nowrap">8.20 M</td>
+    <td style="white-space: nowrap">8.18 M</td>
     <td>2.34x</td>
   </tr>
 </table>

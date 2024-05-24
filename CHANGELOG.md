@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.7 - 2024/05/24
+
++ Use `~c`.
+
 ## 0.1.6 - 2023/10/08
 
 + Some minor refactroings.

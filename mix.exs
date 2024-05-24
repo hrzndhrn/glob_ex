@@ -6,8 +6,8 @@ defmodule GlobEx.MixProject do
   def project do
     [
       app: :glob_ex,
-      version: "0.1.6",
-      elixir: "~> 1.12",
+      version: "0.1.7",
+      elixir: "~> 1.13",
       description: description(),
       source_url: @github,
       start_permanent: Mix.env() == :prod,
@@ -64,7 +64,7 @@ defmodule GlobEx.MixProject do
   defp deps do
     [
       # only dev/test
-      {:benchee_dsl, "~> 0.3", only: [:dev, :test]},
+      {:benchee_dsl, "~> 0.3", only: :dev, runtime: false},
       {:benchee_markdown, "~> 0.1", only: :dev},
       {:credo, "~> 1.6", only: :dev, runtime: false},
       {:ex_doc, "~> 0.21", only: :dev, runtime: false},
