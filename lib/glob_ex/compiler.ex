@@ -27,7 +27,7 @@ defmodule GlobEx.Compiler do
   # windows root
   defp compile(<<vol, ?:, ?/, rest::binary>>, [], 0, []) do
     with {:ok, next} <- compile(rest, [], 1, []) do
-      {:ok, add({:root, [vol | ':/']}, next)}
+      {:ok, add({:root, [vol | ~c":/"]}, next)}
     end
   end
 
@@ -100,7 +100,7 @@ defmodule GlobEx.Compiler do
   end
 
   defp group(<<?], ?[, rest::binary>>, [], pos) do
-    group(rest, '][', pos + 2)
+    group(rest, ~c"][", pos + 2)
   end
 
   defp group(<<?\\, char::utf8, rest::binary>>, any_of, pos) when char in @escape do

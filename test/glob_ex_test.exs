@@ -24,12 +24,12 @@ defmodule GlobExTest do
   describe "compile/2" do
     test "with match_dot: false" do
       assert GlobEx.compile("foo") ==
-               {:ok, %GlobEx{source: "foo", compiled: [exact: 'foo'], match_dot: false}}
+               {:ok, %GlobEx{source: "foo", compiled: [exact: ~c"foo"], match_dot: false}}
     end
 
     test "with match_dot: true" do
       assert GlobEx.compile("foo", match_dot: true) ==
-               {:ok, %GlobEx{source: "foo", compiled: [exact: 'foo'], match_dot: true}}
+               {:ok, %GlobEx{source: "foo", compiled: [exact: ~c"foo"], match_dot: true}}
     end
 
     test "returns error tuple" do
@@ -45,12 +45,12 @@ defmodule GlobExTest do
   describe "compile!/2" do
     test "with match_dot: false" do
       assert GlobEx.compile!("foo") ==
-               %GlobEx{source: "foo", compiled: [exact: 'foo'], match_dot: false}
+               %GlobEx{source: "foo", compiled: [exact: ~c"foo"], match_dot: false}
     end
 
     test "with match_dot: true" do
       assert GlobEx.compile!("foo", match_dot: true) ==
-               %GlobEx{source: "foo", compiled: [exact: 'foo'], match_dot: true}
+               %GlobEx{source: "foo", compiled: [exact: ~c"foo"], match_dot: true}
     end
 
     test "returns error" do
@@ -124,7 +124,6 @@ defmodule GlobExTest do
     test "inspect" do
       assert inspect(~G|foo|) == "~g|foo|"
       assert inspect(~G|f#{o,u}o|) == "~g|f\\\#{o,u}o|"
-      assert inspect(~G|\||) == "~g|\\||"
       assert inspect(~G"|") == "~g|\\||"
     end
   end

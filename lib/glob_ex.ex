@@ -52,8 +52,8 @@ defmodule GlobEx do
 
   @type t :: %__MODULE__{source: binary(), match_dot: boolean(), compiled: [term()]}
 
-  @cwd '.'
-  @root '/'
+  @cwd ~c"."
+  @root ~c"/"
 
   @doc """
   Compiles the glob expression and raises GlobEx.CompileError in case of errors.
@@ -155,8 +155,8 @@ defmodule GlobEx do
     end
   end
 
-  defp match?([{:exact, '..'} | glob], match_dot, [comp | path]) do
-    if '..' == comp, do: match?(glob, match_dot, path), else: false
+  defp match?([{:exact, ~c".."} | glob], match_dot, [comp | path]) do
+    if ~c".." == comp, do: match?(glob, match_dot, path), else: false
   end
 
   defp match?([:double_star], _match_dot, []) do
@@ -222,7 +222,7 @@ defmodule GlobEx do
     list_exact(glob, match_dot, match)
   end
 
-  defp list([{:exact, _file} | _glob] = glob, match_dot, [[_vol | ':/'] = match]) do
+  defp list([{:exact, _file} | _glob] = glob, match_dot, [[_vol | ~c":/"] = match]) do
     list_exact(glob, match_dot, match)
   end
 
@@ -239,8 +239,8 @@ defmodule GlobEx do
     list(glob, match_dot, matches)
   end
 
-  defp list([{:exact, '..'} | glob], match_dot, matches) do
-    matches = for match <- matches, :filelib.is_dir(match), do: join(match, '..')
+  defp list([{:exact, ~c".."} | glob], match_dot, matches) do
+    matches = for match <- matches, :filelib.is_dir(match), do: join(match, ~c"..")
 
     list(glob, match_dot, matches)
   end
@@ -250,7 +250,7 @@ defmodule GlobEx do
       for match <- matches,
           comp <- list_dir(match),
           match_comp?(comp, match_dot, pattern) do
-        match = if match == '/', do: '', else: match
+        match = if match == ~c"/", do: ~c"", else: match
         join(match, comp)
       end
 
@@ -263,7 +263,7 @@ defmodule GlobEx do
     path =
       case dir do
         @cwd -> path
-        @root -> '/' ++ path
+        @root -> ~c"/" ++ path
         vol -> vol ++ path
       end
 
@@ -467,7 +467,7 @@ defmodule GlobEx do
   defp do_file_exists?([vol, ?:, ?/ | file]) do
     file
     |> IO.chardata_to_string()
-    |> do_file_exists?([vol | ':/'])
+    |> do_file_exists?([vol | ~c":/"])
   end
 
   defp do_file_exists?(file) do
@@ -482,11 +482,11 @@ defmodule GlobEx do
     |> do_file_exists?(dir)
   end
 
-  defp do_file_exists?([comp, '..' | path], acc) do
+  defp do_file_exists?([comp, ~c".." | path], acc) do
     dir = :filename.join(acc, comp)
 
     case :filelib.is_dir(dir) do
-      true -> do_file_exists?(path, :filename.join(dir, '..'))
+      true -> do_file_exists?(path, :filename.join(dir, ~c".."))
       false -> false
     end
   end
