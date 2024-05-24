@@ -64,7 +64,7 @@ defmodule GlobEx.MixProject do
   defp deps do
     [
       # only dev/test
-      {:benchee_dsl, "~> 0.3", only: [:dev, :test]},
+      {:benchee_dsl, "~> 0.3", only: :dev, runtime: false},
       {:benchee_markdown, "~> 0.1", only: :dev},
       {:credo, "~> 1.6", only: :dev, runtime: false},
       {:ex_doc, "~> 0.21", only: :dev, runtime: false},

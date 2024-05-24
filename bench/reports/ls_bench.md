@@ -22,10 +22,10 @@ Benchmark suite executing on the following system:
     <td style="white-space: nowrap">16 GB</td>
   </tr><tr>
     <th style="white-space: nowrap">Elixir Version</th>
-    <td style="white-space: nowrap">1.15.6</td>
+    <td style="white-space: nowrap">1.17.0-rc.0</td>
   </tr><tr>
     <th style="white-space: nowrap">Erlang Version</th>
-    <td style="white-space: nowrap">26.1.1</td>
+    <td style="white-space: nowrap">27.0</td>
   </tr>
 </table>
 
@@ -66,20 +66,20 @@ Run Time
 
   <tr>
     <td style="white-space: nowrap">GlobEx.ls/1</td>
-    <td style="white-space: nowrap; text-align: right">34.67</td>
-    <td style="white-space: nowrap; text-align: right">28.85 ms</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;8.98%</td>
-    <td style="white-space: nowrap; text-align: right">28.82 ms</td>
-    <td style="white-space: nowrap; text-align: right">35.22 ms</td>
+    <td style="white-space: nowrap; text-align: right">78.76</td>
+    <td style="white-space: nowrap; text-align: right">12.70 ms</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;15.77%</td>
+    <td style="white-space: nowrap; text-align: right">12.56 ms</td>
+    <td style="white-space: nowrap; text-align: right">14.16 ms</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">Path.wildcard/2</td>
-    <td style="white-space: nowrap; text-align: right">31.52</td>
-    <td style="white-space: nowrap; text-align: right">31.73 ms</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;6.96%</td>
-    <td style="white-space: nowrap; text-align: right">31.76 ms</td>
-    <td style="white-space: nowrap; text-align: right">37.23 ms</td>
+    <td style="white-space: nowrap; text-align: right">75.99</td>
+    <td style="white-space: nowrap; text-align: right">13.16 ms</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;10.81%</td>
+    <td style="white-space: nowrap; text-align: right">13.06 ms</td>
+    <td style="white-space: nowrap; text-align: right">14.36 ms</td>
   </tr>
 
 </table>
@@ -94,14 +94,14 @@ Run Time Comparison
     <th style="text-align: right">Slower</th>
   <tr>
     <td style="white-space: nowrap">GlobEx.ls/1</td>
-    <td style="white-space: nowrap;text-align: right">34.67</td>
+    <td style="white-space: nowrap;text-align: right">78.76</td>
     <td>&nbsp;</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">Path.wildcard/2</td>
-    <td style="white-space: nowrap; text-align: right">31.52</td>
-    <td style="white-space: nowrap; text-align: right">1.1x</td>
+    <td style="white-space: nowrap; text-align: right">75.99</td>
+    <td style="white-space: nowrap; text-align: right">1.04x</td>
   </tr>
 
 </table>
@@ -118,13 +118,13 @@ Memory Usage
   </tr>
   <tr>
     <td style="white-space: nowrap">GlobEx.ls/1</td>
-    <td style="white-space: nowrap">4.51 MB</td>
+    <td style="white-space: nowrap">4.27 MB</td>
     <td>&nbsp;</td>
   </tr>
     <tr>
     <td style="white-space: nowrap">Path.wildcard/2</td>
-    <td style="white-space: nowrap">5.41 MB</td>
-    <td>1.2x</td>
+    <td style="white-space: nowrap">5.18 MB</td>
+    <td>1.21x</td>
   </tr>
 </table>
 
@@ -140,12 +140,12 @@ Reduction Count
   </tr>
   <tr>
     <td style="white-space: nowrap">GlobEx.ls/1</td>
-    <td style="white-space: nowrap">373.74 K</td>
+    <td style="white-space: nowrap">374.07 K</td>
     <td>&nbsp;</td>
   </tr>
     <tr>
     <td style="white-space: nowrap">Path.wildcard/2</td>
-    <td style="white-space: nowrap">614.23 K</td>
+    <td style="white-space: nowrap">615.33 K</td>
     <td>1.64x</td>
   </tr>
 </table>
