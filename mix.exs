@@ -6,8 +6,8 @@ defmodule GlobEx.MixProject do
   def project do
     [
       app: :glob_ex,
-      version: "0.1.6",
-      elixir: "~> 1.12",
+      version: "0.1.7",
+      elixir: "~> 1.13",
       description: description(),
       source_url: @github,
       start_permanent: Mix.env() == :prod,
