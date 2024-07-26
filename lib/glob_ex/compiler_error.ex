@@ -1,7 +1,8 @@
 defmodule GlobEx.CompileError do
   @moduledoc """
-  TODO
+  An exception raised when the compilation of a glob expression fails.
   """
+
   alias GlobEx.CompileError
 
   @type reason :: :emtpy | :invalid
