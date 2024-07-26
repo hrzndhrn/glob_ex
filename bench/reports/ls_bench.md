@@ -22,10 +22,10 @@ Benchmark suite executing on the following system:
     <td style="white-space: nowrap">16 GB</td>
   </tr><tr>
     <th style="white-space: nowrap">Elixir Version</th>
-    <td style="white-space: nowrap">1.17.0-rc.0</td>
+    <td style="white-space: nowrap">1.17.2</td>
   </tr><tr>
     <th style="white-space: nowrap">Erlang Version</th>
-    <td style="white-space: nowrap">27.0</td>
+    <td style="white-space: nowrap">27.0.1</td>
   </tr>
 </table>
 
@@ -66,20 +66,20 @@ Run Time
 
   <tr>
     <td style="white-space: nowrap">GlobEx.ls/1</td>
-    <td style="white-space: nowrap; text-align: right">78.76</td>
-    <td style="white-space: nowrap; text-align: right">12.70 ms</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;15.77%</td>
+    <td style="white-space: nowrap; text-align: right">79.13</td>
+    <td style="white-space: nowrap; text-align: right">12.64 ms</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;3.52%</td>
     <td style="white-space: nowrap; text-align: right">12.56 ms</td>
-    <td style="white-space: nowrap; text-align: right">14.16 ms</td>
+    <td style="white-space: nowrap; text-align: right">14.49 ms</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">Path.wildcard/2</td>
-    <td style="white-space: nowrap; text-align: right">75.99</td>
-    <td style="white-space: nowrap; text-align: right">13.16 ms</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;10.81%</td>
-    <td style="white-space: nowrap; text-align: right">13.06 ms</td>
-    <td style="white-space: nowrap; text-align: right">14.36 ms</td>
+    <td style="white-space: nowrap; text-align: right">75.37</td>
+    <td style="white-space: nowrap; text-align: right">13.27 ms</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;2.75%</td>
+    <td style="white-space: nowrap; text-align: right">13.15 ms</td>
+    <td style="white-space: nowrap; text-align: right">14.47 ms</td>
   </tr>
 
 </table>
@@ -94,14 +94,14 @@ Run Time Comparison
     <th style="text-align: right">Slower</th>
   <tr>
     <td style="white-space: nowrap">GlobEx.ls/1</td>
-    <td style="white-space: nowrap;text-align: right">78.76</td>
+    <td style="white-space: nowrap;text-align: right">79.13</td>
     <td>&nbsp;</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">Path.wildcard/2</td>
-    <td style="white-space: nowrap; text-align: right">75.99</td>
-    <td style="white-space: nowrap; text-align: right">1.04x</td>
+    <td style="white-space: nowrap; text-align: right">75.37</td>
+    <td style="white-space: nowrap; text-align: right">1.05x</td>
   </tr>
 
 </table>
