@@ -128,7 +128,7 @@ defmodule GlobExTest do
     end
   end
 
-  describe "ls/1" do
+  describe "ls/2" do
     @describetag :tmp_dir
 
     test "literal match (simple)" do
@@ -170,7 +170,7 @@ defmodule GlobExTest do
       assert ls("**") == ["abc", "abcdef", "glurf"]
     end
 
-    test "matching with pattern * from rott" do
+    test "matching with pattern * from root" do
       files = ["a", "b", "c"]
       mkfiles(files)
 
@@ -310,6 +310,7 @@ defmodule GlobExTest do
 
       assert ls("*") == ["blurf", "xa", "yyy"]
       assert ls("*", match_dot: true) == [".aaa", "blurf", "xa", "yyy"]
+
       double_star = ["blurf", "blurf/nisse", "xa", "xa/arne", "xa/kalle", "yyy", "yyy/arne"]
       assert ls("**") == double_star
       assert ls("**/**") == double_star
@@ -386,7 +387,7 @@ defmodule GlobExTest do
       assert ls("{a,c**}/foo.txt", match_dot: true) == ["a/foo.txt", "c/foo.txt"]
     end
 
-    test "mathcing ** in different deeps" do
+    test "matching ** in different deeps" do
       mkfiles([
         "a1/abc/foo/x1",
         "a1/abc/def/ghi",
@@ -593,6 +594,387 @@ defmodule GlobExTest do
     end
   end
 
+  describe "ls/2 with filter" do
+    @describetag :tmp_dir
+
+    test "literal match (simple)" do
+      mkfiles([".xyz", "abc", "abcdef", "glurf"])
+
+      assert ls_with_filter(~g|abcdef|) == ["abcdef"]
+      assert ls_with_filter(~g|.xyz|) == [".xyz"]
+    end
+
+    test "glob with UTF-8" do
+      mkfiles(["héllò"])
+
+      assert ls_with_filter(~g|héllò|) == ["héllò"]
+    end
+
+    test "matching with pattern * and ** (simple)" do
+      mkfiles([".xyz", "abc", "abcdef", "glurf"])
+
+      assert ls_with_filter("*", match_dot: true) == [".xyz", "abc", "abcdef", "glurf"]
+      assert ls_with_filter("*") == ["abc", "abcdef", "glurf"]
+      assert ls_with_filter("abcdef") == ["abcdef"]
+      assert ls_with_filter("a*") == ["abc", "abcdef"]
+      assert ls_with_filter("abc*") == ["abc", "abcdef"]
+      assert ls_with_filter("abcd*") == ["abcdef"]
+      assert ls_with_filter("*def") == ["abcdef"]
+      assert ls_with_filter("ab*ef") == ["abcdef"]
+      assert ls_with_filter("a*f") == ["abcdef"]
+
+      assert ls_with_filter("**", match_dot: true) == [".xyz", "abc", "abcdef", "glurf"]
+      assert ls_with_filter("**") == ["abc", "abcdef", "glurf"]
+    end
+
+    test "matching with pattern * from root" do
+      files = ["a", "b", "c"]
+      mkfiles(files)
+
+      glob = File.cwd!() <> "/*"
+      paths = Enum.map(files, fn file -> Path.join(File.cwd!(), file) end)
+
+      assert ls_with_filter(glob) == [File.cwd!() | paths]
+    end
+
+    test "matching with pattern ? (simple)" do
+      mkfiles([".xyz", "abc", "abcdef", "glurf"])
+
+      assert ls_with_filter("abcdef") == ["abcdef"]
+      assert ls_with_filter("ab?") == ["abc"]
+      assert ls_with_filter("ab???") == []
+      assert ls_with_filter("ab????") == ["abcdef"]
+      assert ls_with_filter("?xyz") == []
+      assert ls_with_filter("?xyz", match_dot: true) == [".xyz"]
+    end
+
+    test "matching with pattern {} (simple)" do
+      mkfiles([".xyz", "abc", "abcdef", "glurf"])
+
+      assert ls_with_filter("abcdef") == ["abcdef"]
+      assert ls_with_filter("{abc,abcdef}") == ["abc", "abcdef"]
+      assert ls_with_filter("{*def,gl*}") == ["abcdef", "glurf"]
+      assert ls_with_filter("a*{def,}") == ["abc", "abcdef"]
+      assert ls_with_filter("a*{,def}") == ["abc", "abcdef"]
+      assert ls_with_filter("a*{def,urf}") == ["abcdef"]
+      assert ls_with_filter("a*{d?f,urf}") == ["abcdef"]
+      assert ls_with_filter("a*{cd,xy}ef") == ["abcdef"]
+    end
+
+    test "matching with pattern {} and ?" do
+      mkfiles(["bar/foo.json", "foo/foo.json", "foo/foo.xml", "foo/foo.yaml"])
+      assert ls_with_filter("foo/*.{json,y?ml}") == paths_to(["foo/foo.json", "foo/foo.yaml"])
+    end
+
+    test "matching with pattern [] (simple)" do
+      mkfiles([".xyz", "abc", "abcdef", "glurf"])
+
+      assert ls_with_filter("a[a-c]cdef") == ["abcdef"]
+      assert ls_with_filter("abcd[a-c]f") == []
+    end
+
+    test "matching with pattern [] for a compoent" do
+      mkfiles(["a/x/c", "a/z/c", "a/xyz/c"])
+
+      assert ls_with_filter("a/[a-z]/c") == paths_to(["a/x/c", "a/z/c"])
+      assert ls_with_filter("a/[xyz]/c") == paths_to(["a/x/c", "a/z/c"])
+      assert ls_with_filter("a/[y-z]/c") == paths_to(["a/z/c"])
+      assert ls_with_filter("a/[x-y]/c") == paths_to(["a/x/c"])
+      assert ls_with_filter("a/[uvw]/c") == ["a"]
+    end
+
+    test "matching with pattern [] (character sets)" do
+      all = ["a01", "a02", "a03", "b00", "c02", "d19"]
+      mkfiles(all)
+
+      assert ls_with_filter("[a-z]*") == all
+      assert ls_with_filter("[a-d]*") == all
+      assert ls_with_filter("[abcd]*") == all
+      assert ls_with_filter("[a-c]*") == ["a01", "a02", "a03", "b00", "c02"]
+      assert ls_with_filter("[abc]*") == ["a01", "a02", "a03", "b00", "c02"]
+      assert ls_with_filter("?[0-9][0-9]") == all
+      assert ls_with_filter("?[0-1][0-39]") == all
+      assert ls_with_filter("?[0-1][0-29]") == ["a01", "a02", "b00", "c02", "d19"]
+      assert ls_with_filter("[abcdef][10][01239]") == all
+      assert ls_with_filter("[bcdef][10][01239]") == ["b00", "c02", "d19"]
+      assert ls_with_filter("[bcdef][10][0123]") == ["b00", "c02"]
+      assert ls_with_filter("[a-z]0[0123]") == ["a01", "a02", "a03", "b00", "c02"]
+      assert ls_with_filter("[a-z][0-19]") == []
+      assert ls_with_filter("[a-z][0-19][0-19]") == ["a01", "b00", "d19"]
+      assert ls_with_filter("a[0-9][0-9]") == ["a01", "a02", "a03"]
+      assert ls_with_filter("a[]3") == []
+      assert ls_with_filter("a[]03") == []
+      assert ls_with_filter("[]*") == []
+    end
+
+    test "no matching (simple)" do
+      mkfiles([".xyz", "abc", "abcdef", "glurf"])
+
+      assert ls_with_filter("b*") == []
+      assert ls_with_filter("a*z") == []
+      assert ls_with_filter("bufflig") == []
+    end
+
+    test "matching with pattern *" do
+      all = ["Date", "DateTime"]
+      mkfiles(all)
+
+      assert ls_with_filter("D*") == all
+      assert ls_with_filter("Date*") == all
+    end
+
+    test "matches with * and ** (simple paths)" do
+      mkfiles([".aaa/susi", "blurf/nisse", "xa/arne", "xa/kalle", "yyy/.knut", "yyy/arne"])
+
+      assert ls_with_filter("*") == ["blurf", "xa", "yyy"]
+      assert ls_with_filter("*", match_dot: true) == [".aaa", "blurf", "xa", "yyy"]
+
+      double_star = ["blurf", "blurf/nisse", "xa", "xa/arne", "xa/kalle", "yyy", "yyy/arne"]
+      assert ls_with_filter("**") == double_star
+      assert ls_with_filter("**/**") == double_star
+
+      assert ls_with_filter("**", match_dot: true) == [
+               ".aaa",
+               ".aaa/susi",
+               "blurf",
+               "blurf/nisse",
+               "xa",
+               "xa/arne",
+               "xa/kalle",
+               "yyy",
+               "yyy/.knut",
+               "yyy/arne"
+             ]
+
+      assert ls_with_filter("*/*") == paths_to(["blurf/nisse", "xa/arne", "xa/kalle", "yyy/arne"])
+
+      assert ls_with_filter("*/*", match_dot: true) ==
+               paths_to([
+                 ".aaa/susi",
+                 "blurf/nisse",
+                 "xa/arne",
+                 "xa/kalle",
+                 "yyy/.knut",
+                 "yyy/arne"
+               ])
+    end
+
+    test "literal match (simple paths)" do
+      mkfiles([".aaa/susi", "blurf/nisse", "xa/arne", "xa/kalle", "yyy/.knut", "yyy/arne"])
+
+      assert ls_with_filter("xa/arne") == ["xa/arne"]
+      assert ls_with_filter("*/arne") == paths_to(["blurf", "xa/arne", "yyy/arne"])
+      assert ls_with_filter("xa/*") == ["xa", "xa/arne", "xa/kalle"]
+      assert ls_with_filter("*/nisse") == ["blurf", "blurf/nisse", "xa", "yyy"]
+      assert ls_with_filter("*/gurka") == ["blurf", "xa", "yyy"]
+      assert ls_with_filter("gurka/*") == []
+    end
+
+    test "matching ** and literal" do
+      mkfiles([
+        "a/foo.txt",
+        "a/bar.txt",
+        "a/.baz.txt",
+        "b/bar.txt",
+        "c/foo.txt",
+        "c/bar.txt",
+        "c/d/foo.txt",
+        "c/d/bar.txt",
+        "c/d/e/foo.txt",
+        "c/d/f/bar.txt",
+        "c/.z/foo.txt",
+        "d/e/f/never.txt"
+      ])
+
+      assert ls_with_filter("a/**") == ["a", "a/bar.txt", "a/foo.txt"]
+      assert ls_with_filter("a/**/") == ["a", "a/bar.txt", "a/foo.txt"]
+
+      assert ls_with_filter("**/foo.txt") ==
+               paths_to([
+                 "a/foo.txt",
+                 "b",
+                 "c/.z",
+                 "c/d/e/foo.txt",
+                 "c/d/f",
+                 "c/d/foo.txt",
+                 "c/foo.txt",
+                 "d/e/f"
+               ])
+
+      assert ls_with_filter("c/d*/foo.txt") == paths_to(["c/d/foo.txt"])
+      assert ls_with_filter("c/d**/foo.txt") == paths_to(["c/d/foo.txt"])
+      assert ls_with_filter("c**/foo.txt") == ["c", "c/foo.txt"]
+      assert ls_with_filter("{a,c**}/foo.txt") == paths_to(["a/foo.txt", "c/foo.txt"])
+
+      assert ls_with_filter("a/**", match_dot: true) == [
+               "a",
+               "a/.baz.txt",
+               "a/bar.txt",
+               "a/foo.txt"
+             ]
+    end
+
+    test "matching ** in different deeps" do
+      mkfiles([
+        "a1/abc/foo/x1",
+        "a1/abc/def/ghi",
+        "a2/def/bar/foo",
+        "a2/def/foo/bar",
+        "a3/def/foo"
+      ])
+
+      assert ls_with_filter("{a1,a2}/**/*{oo,ar}") ==
+               paths_to([
+                 "a1/abc/foo",
+                 "a1/abc/def",
+                 "a2/def/bar",
+                 "a2/def/bar/foo",
+                 "a2/def/foo",
+                 "a2/def/foo/bar"
+               ])
+    end
+
+    test "star dot star" do
+      mkfiles(["xbin/a.x", "xbin/b.x", "xbin/c.x", "xbin/.d.x", ".ybin/a.x"])
+
+      assert ls_with_filter("**") == ["xbin", "xbin/a.x", "xbin/b.x", "xbin/c.x"]
+
+      assert ls_with_filter("**", match_dot: true) == [
+               ".ybin",
+               ".ybin/a.x",
+               "xbin",
+               "xbin/.d.x",
+               "xbin/a.x",
+               "xbin/b.x",
+               "xbin/c.x"
+             ]
+
+      assert ls_with_filter("*") == ["xbin"]
+      assert ls_with_filter("*", match_dot: true) == [".ybin", "xbin"]
+      assert ls_with_filter("*/*") == ["xbin", "xbin/a.x", "xbin/b.x", "xbin/c.x"]
+
+      assert ls_with_filter("*/*", match_dot: true) ==
+               paths_to([
+                 ".ybin/a.x",
+                 "xbin/.d.x",
+                 "xbin/a.x",
+                 "xbin/b.x",
+                 "xbin/c.x"
+               ])
+
+      assert ls_with_filter("xbin/*") == ["xbin", "xbin/a.x", "xbin/b.x", "xbin/c.x"]
+
+      assert ls_with_filter("xbin/*", match_dot: true) == [
+               "xbin",
+               "xbin/.d.x",
+               "xbin/a.x",
+               "xbin/b.x",
+               "xbin/c.x"
+             ]
+
+      assert ls_with_filter("xbin/*.*") == ["xbin", "xbin/a.x", "xbin/b.x", "xbin/c.x"]
+
+      assert ls_with_filter("xbin/*.*", match_dot: true) == [
+               "xbin",
+               "xbin/.d.x",
+               "xbin/a.x",
+               "xbin/b.x",
+               "xbin/c.x"
+             ]
+
+      assert ls_with_filter(".ybin/*", match_dot: true) == [".ybin", ".ybin/a.x"]
+      assert ls_with_filter("*/.d.x") == ["xbin"]
+      assert ls_with_filter("*/.d.x", match_dot: true) == [".ybin", "xbin", "xbin/.d.x"]
+      assert ls_with_filter("**in/*") == ["xbin", "xbin/a.x", "xbin/b.x", "xbin/c.x"]
+
+      assert ls_with_filter("**in/*", match_dot: true) ==
+               paths_to([
+                 ".ybin/a.x",
+                 "xbin/.d.x",
+                 "xbin/a.x",
+                 "xbin/b.x",
+                 "xbin/c.x"
+               ])
+
+      assert ls_with_filter(".ybin/*") == [".ybin", ".ybin/a.x"]
+    end
+
+    test "matching with pattern * and ** (deep)" do
+      mkfiles(["blurf/nisse/baz", "xa/arne", "xa/kalle", "yyy/arne"])
+
+      assert ls_with_filter("**") == [
+               "blurf",
+               "blurf/nisse",
+               "blurf/nisse/baz",
+               "xa",
+               "xa/arne",
+               "xa/kalle",
+               "yyy",
+               "yyy/arne"
+             ]
+
+      assert ls_with_filter("**/*") == [
+               "blurf",
+               "blurf/nisse",
+               "blurf/nisse/baz",
+               "xa",
+               "xa/arne",
+               "xa/kalle",
+               "yyy",
+               "yyy/arne"
+             ]
+
+      assert ls_with_filter("**/arne") == paths_to(["blurf/nisse", "xa/arne", "yyy/arne"])
+      assert ls_with_filter("**/nisse") == ["blurf", "blurf/nisse", "xa", "yyy"]
+      assert ls_with_filter("**/foo") == ["blurf", "blurf/nisse", "xa", "yyy"]
+      assert ls_with_filter("foo/**") == []
+    end
+
+    test "matching with pattern * and ** (deeper)" do
+      all = ["blurf/nisse/a/1.txt", "blurf/nisse/b/2.txt", "blurf/nisse/b/3.txt"]
+      mkfiles(all)
+
+      assert ls_with_filter("**/blurf/**/*.txt") == paths_to(all)
+    end
+
+    test "dir and file" do
+      mkfiles(["bar/", "baz"])
+
+      assert File.dir?("bar") == true
+      assert File.dir?("baz") == false
+
+      assert ls_with_filter("b*/") == ["bar", "baz"]
+      assert ls_with_filter("b*") == ["bar", "baz"]
+
+      assert ls_with_filter("bar/../baz") == ["bar/../baz"]
+      assert ls_with_filter("bar/../foo") == []
+      assert ls_with_filter("baz/../bar") == []
+    end
+  end
+
+  describe "ls/2 filters" do
+    @describetag :tmp_dir
+
+    test "files modified after a timestamp" do
+      d_txt = "a/b/c/d.txt"
+      h_txt = "e/f/g/h.txt"
+
+      mkfiles([d_txt, h_txt])
+
+      now = DateTime.utc_now() |> DateTime.to_unix()
+
+      File.touch!(d_txt, now - 1_000)
+      File.touch!(h_txt, now + 1_000)
+
+      {filter, id} = look(fn path -> 
+        File.dir?(path) || File.stat!(path, time: :posix).mtime > now
+      end)
+
+      assert GlobEx.ls(~g"**/*.txt", filter) == [h_txt]
+      assert seen(id) == paths_to([h_txt, d_txt])
+    end
+  end
+
   batch "match?/2" do
     prove GlobEx.match?(~g|foo|, "foo") == true
     prove GlobEx.match?(~g|.foo|, ".foo") == true
@@ -793,5 +1175,71 @@ defmodule GlobExTest do
       {:unix, _} -> true
       _ -> false
     end
+  end
+
+  defp ls_with_filter(glob) when is_struct(glob) do
+    {look, id} = look()
+    GlobEx.ls(glob, look)
+    seen(id)
+  end
+
+  defp ls_with_filter(glob, opts \\ []) do
+    {look, id} = look()
+
+    glob
+    |> GlobEx.compile!(opts)
+    |> GlobEx.ls(look)
+
+    seen(id)
+  end
+
+  defp look(filter \\ fn _ -> true end) do
+    id = System.unique_integer()
+
+    fun = fn see ->
+      seen = Process.get(id, [])
+      Process.put(id, [see | seen])
+      filter.(see)
+    end
+
+    {fun, id}
+  end
+
+  defp seen(id) do
+    id
+    |> Process.get([])
+    |> Enum.reverse()
+    |> Enum.reduce([], fn path, paths ->
+      parts = Path.split(path)
+
+      # For some glob expressions, a bouble check is possible. 
+      # For example, a glob expression such as `**/folder/**/file.txt` must 
+      # search all `folder` and then start searching in each `folder` it finds. 
+      if Enum.member?(paths, path) do
+        paths
+      else
+        refute Enum.any?(paths, fn path -> path |> Path.split() |> List.starts_with?(parts) end),
+               "A deeper path was seen before #{inspect(path)}, paths: #{inspect(paths)}"
+
+        [path | paths]
+      end
+    end)
+    |> tap(fn seen -> assert seen == Enum.uniq(seen) end)
+    |> Enum.sort()
+  end
+
+  defp paths_to(paths) do
+    paths
+    |> Enum.flat_map(fn path ->
+      path
+      |> Path.split()
+      |> Enum.reduce({[], ""}, fn part, {acc, path} ->
+        path = Path.join(path, part)
+        {[path | acc], path}
+      end)
+      |> elem(0)
+    end)
+    |> Enum.uniq()
+    |> Enum.sort()
   end
 end

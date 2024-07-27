@@ -1,6 +1,6 @@
-Benchmark GlobEx.ls/1
+Benchmark GlobEx.ls/1 with filter all
 
-Comparing `GlobEx.ls/1` with `Path.wildcard/2`.
+TODO
 
 
 ## System
@@ -50,7 +50,7 @@ Benchmark suite executing with the following configuration:
 
 
 
-__Input: {lib,test}/**/*.{ex,exs}__
+__Input: timestamp__
 
 Run Time
 
@@ -65,21 +65,21 @@ Run Time
   </tr>
 
   <tr>
-    <td style="white-space: nowrap">GlobEx.ls/1</td>
-    <td style="white-space: nowrap; text-align: right">79.26</td>
-    <td style="white-space: nowrap; text-align: right">12.62 ms</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;5.23%</td>
-    <td style="white-space: nowrap; text-align: right">12.55 ms</td>
-    <td style="white-space: nowrap; text-align: right">14.06 ms</td>
+    <td style="white-space: nowrap">filter after GlobEx.ls/2</td>
+    <td style="white-space: nowrap; text-align: right">35.82</td>
+    <td style="white-space: nowrap; text-align: right">27.92 ms</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;9.28%</td>
+    <td style="white-space: nowrap; text-align: right">27.37 ms</td>
+    <td style="white-space: nowrap; text-align: right">47.78 ms</td>
   </tr>
 
   <tr>
-    <td style="white-space: nowrap">Path.wildcard/2</td>
-    <td style="white-space: nowrap; text-align: right">75.98</td>
-    <td style="white-space: nowrap; text-align: right">13.16 ms</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;3.69%</td>
-    <td style="white-space: nowrap; text-align: right">13.03 ms</td>
-    <td style="white-space: nowrap; text-align: right">14.71 ms</td>
+    <td style="white-space: nowrap">filter with GlobEx.ls/2</td>
+    <td style="white-space: nowrap; text-align: right">10.48</td>
+    <td style="white-space: nowrap; text-align: right">95.46 ms</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;5.65%</td>
+    <td style="white-space: nowrap; text-align: right">93.64 ms</td>
+    <td style="white-space: nowrap; text-align: right">126.58 ms</td>
   </tr>
 
 </table>
@@ -93,15 +93,15 @@ Run Time Comparison
     <th style="text-align: right">IPS</th>
     <th style="text-align: right">Slower</th>
   <tr>
-    <td style="white-space: nowrap">GlobEx.ls/1</td>
-    <td style="white-space: nowrap;text-align: right">79.26</td>
+    <td style="white-space: nowrap">filter after GlobEx.ls/2</td>
+    <td style="white-space: nowrap;text-align: right">35.82</td>
     <td>&nbsp;</td>
   </tr>
 
   <tr>
-    <td style="white-space: nowrap">Path.wildcard/2</td>
-    <td style="white-space: nowrap; text-align: right">75.98</td>
-    <td style="white-space: nowrap; text-align: right">1.04x</td>
+    <td style="white-space: nowrap">filter with GlobEx.ls/2</td>
+    <td style="white-space: nowrap; text-align: right">10.48</td>
+    <td style="white-space: nowrap; text-align: right">3.42x</td>
   </tr>
 
 </table>
@@ -117,14 +117,14 @@ Memory Usage
     <th style="text-align: right">Factor</th>
   </tr>
   <tr>
-    <td style="white-space: nowrap">GlobEx.ls/1</td>
-    <td style="white-space: nowrap">4.30 MB</td>
+    <td style="white-space: nowrap">filter after GlobEx.ls/2</td>
+    <td style="white-space: nowrap">4.27 MB</td>
     <td>&nbsp;</td>
   </tr>
     <tr>
-    <td style="white-space: nowrap">Path.wildcard/2</td>
-    <td style="white-space: nowrap">5.18 MB</td>
-    <td>1.21x</td>
+    <td style="white-space: nowrap">filter with GlobEx.ls/2</td>
+    <td style="white-space: nowrap">9.16 MB</td>
+    <td>2.14x</td>
   </tr>
 </table>
 
@@ -139,13 +139,13 @@ Reduction Count
     <th style="text-align: right">Factor</th>
   </tr>
   <tr>
-    <td style="white-space: nowrap">GlobEx.ls/1</td>
-    <td style="white-space: nowrap">380.79 K</td>
+    <td style="white-space: nowrap">filter after GlobEx.ls/2</td>
+    <td style="white-space: nowrap">390.76 K</td>
     <td>&nbsp;</td>
   </tr>
     <tr>
-    <td style="white-space: nowrap">Path.wildcard/2</td>
-    <td style="white-space: nowrap">615.33 K</td>
-    <td>1.62x</td>
+    <td style="white-space: nowrap">filter with GlobEx.ls/2</td>
+    <td style="white-space: nowrap">789.44 K</td>
+    <td>2.02x</td>
   </tr>
 </table>

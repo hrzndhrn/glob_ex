@@ -126,9 +126,9 @@ defmodule GlobEx do
       ]
   """
   @spec ls(t()) :: [Path.t()]
-  def ls(%GlobEx{compiled: compiled, match_dot: match_dot}) do
+  def ls(%GlobEx{compiled: compiled, match_dot: match_dot}, filter \\ nil) do
     compiled
-    |> list(match_dot)
+    |> list(match_dot, filter)
     |> :lists.sort()
     |> Enum.map(&:unicode.characters_to_binary/1)
   end
@@ -206,58 +206,69 @@ defmodule GlobEx do
 
   defp exact(glob, path), do: {glob, path}
 
-  defp list([:root | glob], match_dot), do: list(glob, match_dot, [@root])
-
-  defp list([{:root, vol} | glob], match_dot) do
-    list(glob, match_dot, [vol])
+  defp list([:root | glob], match_dot, filter) do
+    do_list(glob, match_dot, filter, [@root])
   end
 
-  defp list(glob, match_dot), do: list(glob, match_dot, [@cwd])
-
-  defp list(_glob, _match_dot, []), do: []
-
-  defp list([], _match_dot, result), do: result
-
-  defp list([{:exact, _file} | _glob] = glob, match_dot, [match]) when match in [@cwd, @root] do
-    list_exact(glob, match_dot, match)
+  defp list([{:root, vol} | glob], match_dot, filter) do
+    do_list(glob, match_dot, filter, [vol])
   end
 
-  defp list([{:exact, _file} | _glob] = glob, match_dot, [[_vol | ~c":/"] = match]) do
-    list_exact(glob, match_dot, match)
+  defp list(glob, match_dot, filter) do
+    do_list(glob, match_dot, filter, [@cwd])
   end
 
-  defp list([:double_star], match_dot, matches) do
-    trees(matches, match_dot)
+  defp do_list(_glob, _match_dot, _filter, []), do: []
+
+  defp do_list([], _match_dot, _filter, result), do: result
+
+  defp do_list([{:exact, _file} | _glob] = glob, match_dot, filter, [match])
+       when match in [@cwd, @root] do
+    list_exact(glob, match_dot, filter, match)
   end
 
-  defp list([:double_star, :star | glob], match_dot, matches) do
-    list([:double_star | glob], match_dot, matches)
+  defp do_list([{:exact, _file} | _glob] = glob, match_dot, filter, [[_vol | ~c":/"] = match]) do
+    list_exact(glob, match_dot, filter, match)
   end
 
-  defp list([:double_star, next | glob], match_dot, matches) do
-    matches = double_star_matches(matches, match_dot, next, [])
-    list(glob, match_dot, matches)
+  defp do_list([:double_star], match_dot, filter, matches) do
+    trees(matches, match_dot, filter)
   end
 
-  defp list([{:exact, ~c".."} | glob], match_dot, matches) do
-    matches = for match <- matches, :filelib.is_dir(match), do: join(match, ~c"..")
-
-    list(glob, match_dot, matches)
+  defp do_list([:double_star, :star | glob], match_dot, filter, matches) do
+    do_list([:double_star | glob], match_dot, filter, matches)
   end
 
-  defp list([pattern | glob], match_dot, matches) do
+  defp do_list([:double_star, next | glob], match_dot, filter, matches) do
+    matches = double_star_matches(matches, match_dot, filter, next, [])
+
+    do_list(glob, match_dot, filter, matches)
+  end
+
+  defp do_list([{:exact, ~c".."} | glob], match_dot, filter, matches) do
+    matches =
+      for match <- matches,
+          :filelib.is_dir(match),
+          filter?(filter, match),
+          do: join(match, ~c"..")
+
+    do_list(glob, match_dot, filter, matches)
+  end
+
+  defp do_list([pattern | glob], match_dot, filter, matches) do
     matches =
       for match <- matches,
           comp <- list_dir(match),
-          match_comp?(comp, match_dot, pattern) do
+          match_comp?(comp, match_dot, pattern),
+          filter?(filter, match, comp) do
         match = if match == ~c"/", do: ~c"", else: match
         join(match, comp)
       end
 
-    list(glob, match_dot, matches)
+    do_list(glob, match_dot, filter, matches)
   end
 
-  defp list_exact([{:exact, file} | glob], match_dot, dir) do
+  defp list_exact([{:exact, file} | glob], match_dot, filter, dir) do
     {path, glob} = path(file, glob)
 
     path =
@@ -267,10 +278,46 @@ defmodule GlobEx do
         vol -> vol ++ path
       end
 
-    case file_exists?(path) do
-      true -> list(glob, match_dot, [path])
+    case file_exists?(path) && filter?(filter, path) do
+      true -> do_list(glob, match_dot, filter, [path])
       false -> []
     end
+  end
+
+  defp filter?(nil, _match), do: true
+
+  defp filter?(fun, match) do
+    match |> to_string() |> fun.()
+  end
+
+  defp filter?(nil, _base, _match), do: true
+
+  defp filter?(fun, base, match) do
+    base |> join(match) |> to_string() |> fun.()
+  end
+
+  defp filter_dir?(nil, _base, _match), do: true
+
+  defp filter_dir?(fun, base, match) do
+    path = join(base, match)
+
+    if :filelib.is_dir(path) do
+      path |> to_string() |> fun.()
+    else
+      true
+    end
+  end
+
+  defp filter_files(list, nil), do: list
+
+  defp filter_files(list, fun) do
+    Enum.filter(list, fn item ->
+      if :filelib.is_dir(item) do
+        true
+      else
+        to_string(item) |> fun.()
+      end
+    end)
   end
 
   defp path(path, [{:exact, file} | glob]) do
@@ -400,37 +447,41 @@ defmodule GlobEx do
     end
   end
 
-  defp trees(dirs, match_dot, acc \\ []) do
-    dirs =
+  defp trees(dirs, match_dot, filter, acc \\ []) do
+    matches =
       for dir <- dirs,
           sub_dir <- list_dir(dir),
           match_dot?(sub_dir, match_dot),
+          filter?(filter, dir, sub_dir),
           do: join(dir, sub_dir)
 
-    case dirs do
+    case matches do
       [] -> acc
-      dirs -> trees(dirs, match_dot, dirs ++ acc)
+      dirs -> trees(dirs, match_dot, filter, dirs ++ acc)
     end
   end
 
-  defp double_star_matches([], _match_dot, _pattern, acc), do: acc
+  defp double_star_matches([], _match_dot, filter, _pattern, acc) do
+    filter_files(acc, filter)
+  end
 
-  defp double_star_matches(matches, match_dot, pattern, acc) do
+  defp double_star_matches(matches, match_dot, filter, pattern, acc) do
     {matches, acc} =
       for match <- matches,
           item <- list_dir(match),
+          filter_dir?(filter, match, item),
           reduce: {[], acc} do
-        {matches, acc} -> double_star_match(item, match_dot, pattern, match, matches, acc)
+        {matches, acc} -> double_star_match(item, match_dot, filter, pattern, match, matches, acc)
       end
 
-    double_star_matches(matches, match_dot, pattern, acc)
+    double_star_matches(matches, match_dot, filter, pattern, acc)
   end
 
-  defp double_star_match([?. | _rest], false, _pattern, _match, matches, acc) do
+  defp double_star_match([?. | _rest], false, _filter, _pattern, _match, matches, acc) do
     {matches, acc}
   end
 
-  defp double_star_match(item, _match_dot, pattern, match, matches, acc) do
+  defp double_star_match(item, _match_dot, _filter, pattern, match, matches, acc) do
     path = join(match, item)
 
     case match_comp?(item, pattern) do

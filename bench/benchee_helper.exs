@@ -1,17 +1,19 @@
 {fixtures, []} = Code.eval_file("bench/fixtures.exs")
 tmp = "tmp/bench"
 
+now = DateTime.utc_now() |> DateTime.add(-1, :hour) |> DateTime.to_unix()
 File.mkdir_p!(tmp)
+File.touch!(tmp, now)
 
-Enum.each(fixtures, fn file ->
-  Enum.each(1..10, fn n ->
-    file = String.replace(file, ".ex", "#{n}.ex")
-    file = Path.join(tmp, file)
-    dirname = Path.dirname(file)
-    File.mkdir_p!(dirname)
-    File.touch(file)
-  end)
-end)
+for file <- fixtures,
+    n <- 1..10 do
+  file = String.replace(file, ".ex", "#{n}.ex")
+  file = Path.join(tmp, file)
+  dirname = Path.dirname(file)
+  File.mkdir_p!(dirname)
+  File.touch!(file, now)
+  File.touch!(file, now)
+end
 
 BencheeDsl.run(
   time: 10,
