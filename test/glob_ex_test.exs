@@ -170,7 +170,7 @@ defmodule GlobExTest do
       assert ls("**") == ["abc", "abcdef", "glurf"]
     end
 
-    test "matching with pattern * from rott" do
+    test "matching with pattern * from root" do
       files = ["a", "b", "c"]
       mkfiles(files)
 
@@ -386,7 +386,7 @@ defmodule GlobExTest do
       assert ls("{a,c**}/foo.txt", match_dot: true) == ["a/foo.txt", "c/foo.txt"]
     end
 
-    test "mathcing ** in different deeps" do
+    test "matching ** in different deeps" do
       mkfiles([
         "a1/abc/foo/x1",
         "a1/abc/def/ghi",

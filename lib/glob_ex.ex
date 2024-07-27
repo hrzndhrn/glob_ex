@@ -129,8 +129,10 @@ defmodule GlobEx do
   def ls(%GlobEx{compiled: compiled, match_dot: match_dot}) do
     compiled
     |> list(match_dot)
-    |> :lists.sort()
-    |> Enum.map(&:unicode.characters_to_binary/1)
+    |> Enum.reduce([], fn path, acc ->
+      [:unicode.characters_to_binary(path) | acc]
+    end)
+    |> Enum.sort()
   end
 
   @doc """
