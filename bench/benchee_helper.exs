@@ -3,15 +3,14 @@ tmp = "tmp/bench"
 
 File.mkdir_p!(tmp)
 
-Enum.each(fixtures, fn file ->
-  Enum.each(1..10, fn n ->
-    file = String.replace(file, ".ex", "#{n}.ex")
-    file = Path.join(tmp, file)
-    dirname = Path.dirname(file)
-    File.mkdir_p!(dirname)
-    File.touch(file)
-  end)
-end)
+for file <- fixtures,
+    n <- 1..10 do
+  file = String.replace(file, ".ex", "#{n}.ex")
+  file = Path.join(tmp, file)
+  dirname = Path.dirname(file)
+  File.mkdir_p!(dirname)
+  File.touch!(file)
+end
 
 BencheeDsl.run(
   time: 10,

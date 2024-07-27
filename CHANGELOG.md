@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.8 - 2024/07/27
+
++ Minor refactroings.
++ Fix typos.
++ Add docs.
+
 ## 0.1.7 - 2024/05/24
 
 + Use `~c`.
