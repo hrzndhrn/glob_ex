@@ -34,11 +34,21 @@ defmodule GlobExTest do
 
     test "returns error tuple" do
       assert GlobEx.compile("") == {:error, %CompileError{reason: :empty}}
-      assert GlobEx.compile("[") == {:error, %CompileError{reason: {:missing_delimiter, 1}}}
-      assert GlobEx.compile("foo/b[r") == {:error, %CompileError{reason: {:missing_delimiter, 6}}}
-      assert GlobEx.compile("foo/b{r") == {:error, %CompileError{reason: {:missing_delimiter, 6}}}
-      assert GlobEx.compile("b{r/}") == {:error, %CompileError{reason: {:missing_delimiter, 2}}}
-      assert GlobEx.compile("b[r/]") == {:error, %CompileError{reason: {:missing_delimiter, 2}}}
+
+      assert GlobEx.compile("[") ==
+               {:error, %CompileError{reason: {:missing_delimiter, 1}, input: "["}}
+
+      assert GlobEx.compile("foo/b[r") ==
+               {:error, %CompileError{reason: {:missing_delimiter, 6}, input: "foo/b[r"}}
+
+      assert GlobEx.compile("foo/b{r") ==
+               {:error, %CompileError{reason: {:missing_delimiter, 6}, input: "foo/b{r"}}
+
+      assert GlobEx.compile("b{r/}") ==
+               {:error, %CompileError{reason: {:missing_delimiter, 2}, input: "b{r/}"}}
+
+      assert GlobEx.compile("b[r/]") ==
+               {:error, %CompileError{reason: {:missing_delimiter, 2}, input: "b[r/]"}}
     end
   end
 

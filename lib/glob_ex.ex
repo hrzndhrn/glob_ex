@@ -91,7 +91,7 @@ defmodule GlobEx do
       {:ok, ~g|src/**/?oo.ex|}
 
       iex> GlobEx.compile("src/{a,b/?oo.ex")
-      {:error, %GlobEx.CompileError{reason: {:missing_delimiter, 5}}}
+      {:error, %GlobEx.CompileError{reason: {:missing_delimiter, 5}, input: "src/{a,b/?oo.ex"}}
   """
   @spec compile(binary(), keyword()) :: {:ok, t()} | {:error, CompileError.t()}
   def compile(glob, opts \\ []) do
@@ -102,7 +102,7 @@ defmodule GlobEx do
         {:ok, %GlobEx{source: glob, compiled: compiled, match_dot: match_dot}}
 
       {:error, reason} ->
-        {:error, %CompileError{reason: reason}}
+        {:error, %CompileError{reason: reason, input: glob}}
     end
   end
 

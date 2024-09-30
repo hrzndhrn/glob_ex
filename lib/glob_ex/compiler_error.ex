@@ -7,9 +7,9 @@ defmodule GlobEx.CompileError do
 
   @type reason :: :emtpy | :invalid
 
-  @type t :: %CompileError{reason: reason()}
+  @type t :: %CompileError{reason: reason(), input: String.t()}
 
-  defexception [:reason]
+  defexception [:reason, input: ""]
 
   @impl true
   def message(%CompileError{reason: reason}) do

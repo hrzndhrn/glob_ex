@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.9 - 2024/09/30
+
++ Add `:input` to `GlobEx.CompileError`.
+
 ## 0.1.8 - 2024/07/27
 
 + Minor refactroings.
