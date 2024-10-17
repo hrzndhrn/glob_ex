@@ -496,11 +496,12 @@ defmodule GlobEx do
 
   defp do_file_exists?([], acc), do: File.exists?(acc)
 
-  defp hidden?([]), do: false
-
-  defp hidden?([[?. | _rest] | _path]), do: true
-
-  defp hidden?([_comp | rest]), do: hidden?(rest)
+  defp hidden?(path) do
+    Enum.any?(path, fn
+      [?. | _rest] -> true
+      _comp -> false
+    end)
+  end
 
   @doc false
   # Unescape map function used by Macro.unescape_string.
