@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.10 - 2024/10/17
+
++ Shorten `[:double_star, :start]` to `[:double_star]`.
++ Fix for `:exact` matching followed by `:double_star` in `GlobEx.match/2`.
+
 ## 0.1.9 - 2024/09/30
 
 + Add `:input` to `GlobEx.CompileError`.

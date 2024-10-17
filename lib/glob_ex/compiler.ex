@@ -236,6 +236,8 @@ defmodule GlobEx.Compiler do
 
   defp add(:double_star, [:double_star | _rest] = result), do: result
 
+  defp add(:double_star, [:star | rest]), do: [:double_star | rest]
+
   defp add(result, next), do: [result | next]
 
   defp to_list(a, b) when a > b, do: []
