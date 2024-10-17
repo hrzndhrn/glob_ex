@@ -162,15 +162,15 @@ defmodule GlobEx do
   end
 
   defp match?([:double_star], _match_dot, []) do
-    true
+    false
   end
 
   defp match?([:double_star], true, _path) do
     true
   end
 
-  defp match?([:double_star] = glob, false, [comp | path]) do
-    if hd(comp) == ?., do: false, else: match?(glob, false, path)
+  defp match?([:double_star], false, path) do
+    not hidden?(path)
   end
 
   defp match?([:double_star, pattern | rest] = glob, match_dot, [comp | path]) do
@@ -230,10 +230,6 @@ defmodule GlobEx do
 
   defp list([:double_star], match_dot, matches) do
     trees(matches, match_dot)
-  end
-
-  defp list([:double_star, :star | glob], match_dot, matches) do
-    list([:double_star | glob], match_dot, matches)
   end
 
   defp list([:double_star, next | glob], match_dot, matches) do
@@ -499,6 +495,12 @@ defmodule GlobEx do
   end
 
   defp do_file_exists?([], acc), do: File.exists?(acc)
+
+  defp hidden?([]), do: false
+
+  defp hidden?([[?. | _rest] | _path]), do: true
+
+  defp hidden?([_comp | rest]), do: hidden?(rest)
 
   @doc false
   # Unescape map function used by Macro.unescape_string.

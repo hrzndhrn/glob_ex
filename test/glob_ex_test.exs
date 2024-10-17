@@ -322,6 +322,7 @@ defmodule GlobExTest do
       assert ls("*", match_dot: true) == [".aaa", "blurf", "xa", "yyy"]
       double_star = ["blurf", "blurf/nisse", "xa", "xa/arne", "xa/kalle", "yyy", "yyy/arne"]
       assert ls("**") == double_star
+      assert ls("**/*") == double_star
       assert ls("**/**") == double_star
 
       assert ls("**", match_dot: true) == [
@@ -347,6 +348,24 @@ defmodule GlobExTest do
                "yyy/.knut",
                "yyy/arne"
              ]
+    end
+
+    test "match foo and ** or **/*" do
+      mkfiles(["foo/bar.txt", "foo/bar/baz.txt"])
+
+      assert ls("foo") == ["foo"]
+      assert ls("foo/") == ["foo"]
+      assert ls("foo/**") == ["foo/bar", "foo/bar.txt", "foo/bar/baz.txt"]
+      assert ls("foo/**/*") == ["foo/bar", "foo/bar.txt", "foo/bar/baz.txt"]
+    end
+
+    test "match foo and ** or **/* with file foo" do
+      mkfiles(["foo"])
+
+      assert ls("foo") == ["foo"]
+      assert ls("foo/") == ["foo"]
+      assert ls("foo/**") == []
+      assert ls("foo/**/*") == []
     end
 
     test "literal match (simple paths)" do
@@ -669,6 +688,15 @@ defmodule GlobExTest do
     prove GlobEx.match?(~g|c/d**/foo.txt|, "c/d/e/foo.txt") == false
     prove GlobEx.match?(~g|c/d*/foo.txt|, "c/d/foo.txt") == true
     prove GlobEx.match?(~g|c/d*/foo.txt|, "c/d/e/foo.txt") == false
+
+    prove GlobEx.match?(~g|foo|, "foo") == true
+    prove GlobEx.match?(~g|foo|, "foo/") == true
+    prove GlobEx.match?(~g|foo/|, "foo") == true
+    prove GlobEx.match?(~g|foo/|, "foo/") == true
+    prove GlobEx.match?(~g|foo/**|, "foo") == false
+    prove GlobEx.match?(~g|foo/**|, "foo/") == false
+    prove GlobEx.match?(~g|foo/**/*|, "foo") == false
+    prove GlobEx.match?(~g|foo/**/*|, "foo/") == false
 
     prove GlobEx.match?(~g|[a-c]z|, "az") == true
     prove GlobEx.match?(~g|[a-c]z|, "zz") == false
