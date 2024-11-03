@@ -816,14 +816,14 @@ defmodule GlobExTest do
     prove GlobEx.match?(~g|.foo.txt|, ".foo.txt") == true
     prove GlobEx.match?(~g|*/.foo.txt|, ".foo.txt") == false
     prove GlobEx.match?(~g|*/.foo.txt|, "bar/.foo.txt") == false
-    prove GlobEx.match?(~g|**/.foo.txt|, ".foo.txt") ==  false
-    prove GlobEx.match?(~g|**/.foo.txt|, "bar/.foo.txt") ==  false
+    prove GlobEx.match?(~g|**/.foo.txt|, ".foo.txt") == false
+    prove GlobEx.match?(~g|**/.foo.txt|, "bar/.foo.txt") == false
     prove GlobEx.match?(~g|bar/.foo.txt|, "bar/.foo.txt") == true
     prove GlobEx.match?(~g|/.foo.txt|, "/.foo.txt") == true
     prove GlobEx.match?(~g|/*/.foo.txt|, "/.foo.txt") == false
     prove GlobEx.match?(~g|/*/.foo.txt|, "/bar/.foo.txt") == false
-    prove GlobEx.match?(~g|/**/.foo.txt|, "/.foo.txt") ==  false
-    prove GlobEx.match?(~g|/**/.foo.txt|, "/bar/.foo.txt") ==  false
+    prove GlobEx.match?(~g|/**/.foo.txt|, "/.foo.txt") == false
+    prove GlobEx.match?(~g|/**/.foo.txt|, "/bar/.foo.txt") == false
     prove GlobEx.match?(~g|/bar/.foo.txt|, "/bar/.foo.txt") == true
   end
 

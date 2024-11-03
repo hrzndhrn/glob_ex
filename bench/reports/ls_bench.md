@@ -66,20 +66,20 @@ Run Time
 
   <tr>
     <td style="white-space: nowrap">GlobEx.ls/1</td>
-    <td style="white-space: nowrap; text-align: right">79.47</td>
-    <td style="white-space: nowrap; text-align: right">12.58 ms</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;15.29%</td>
-    <td style="white-space: nowrap; text-align: right">12.34 ms</td>
-    <td style="white-space: nowrap; text-align: right">18.18 ms</td>
+    <td style="white-space: nowrap; text-align: right">77.91</td>
+    <td style="white-space: nowrap; text-align: right">12.83 ms</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;17.88%</td>
+    <td style="white-space: nowrap; text-align: right">12.38 ms</td>
+    <td style="white-space: nowrap; text-align: right">23.96 ms</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">Path.wildcard/2</td>
-    <td style="white-space: nowrap; text-align: right">71.93</td>
-    <td style="white-space: nowrap; text-align: right">13.90 ms</td>
-    <td style="white-space: nowrap; text-align: right">&plusmn;21.61%</td>
-    <td style="white-space: nowrap; text-align: right">13.50 ms</td>
-    <td style="white-space: nowrap; text-align: right">20.29 ms</td>
+    <td style="white-space: nowrap; text-align: right">70.83</td>
+    <td style="white-space: nowrap; text-align: right">14.12 ms</td>
+    <td style="white-space: nowrap; text-align: right">&plusmn;13.27%</td>
+    <td style="white-space: nowrap; text-align: right">13.74 ms</td>
+    <td style="white-space: nowrap; text-align: right">22.19 ms</td>
   </tr>
 
 </table>
@@ -94,13 +94,13 @@ Run Time Comparison
     <th style="text-align: right">Slower</th>
   <tr>
     <td style="white-space: nowrap">GlobEx.ls/1</td>
-    <td style="white-space: nowrap;text-align: right">79.47</td>
+    <td style="white-space: nowrap;text-align: right">77.91</td>
     <td>&nbsp;</td>
   </tr>
 
   <tr>
     <td style="white-space: nowrap">Path.wildcard/2</td>
-    <td style="white-space: nowrap; text-align: right">71.93</td>
+    <td style="white-space: nowrap; text-align: right">70.83</td>
     <td style="white-space: nowrap; text-align: right">1.1x</td>
   </tr>
 

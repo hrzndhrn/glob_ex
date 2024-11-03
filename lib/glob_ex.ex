@@ -30,9 +30,8 @@ defmodule GlobEx do
   Note that \ must be written as \\ in a string literal.
   For example, "\\?*" will match any filename starting with ?.
 
-  Glob expressions in can be created using `compile/2`, `compile!/2` or the
-  sigils ~g (see `GlobEx.Sigils.sigil_g/2`) or ~G (see
-  `GlobEx.Sigils.sigil_G/2`).
+  Glob expressions can be created using `compile/2`, `compile!/2` or the sigils 
+  ~g (see `GlobEx.Sigils.sigil_g/2`) or ~G (see `GlobEx.Sigils.sigil_G/2`).
 
   ```elixir
   # A simple glob expressions matching all `.exs` files in a tree. By default,
@@ -138,7 +137,11 @@ defmodule GlobEx do
   @doc """
   Returns a boolean indicating whether there was a match or not.
 
-  See the module documentation for how to write a glob expression.
+  See the module documentation on how to write a glob expression.
+
+  Hidden files starting with a `.` will only be matched  if `match_dot` is 
+  `true` or the `~g`/`~G` has the modifier `d`. However, if the glob expression 
+  consists of an exact path to a hidden file, this path is also matched. 
 
   ## Examples
 
@@ -147,6 +150,17 @@ defmodule GlobEx do
 
       iex> GlobEx.match?(~g|{lib,test}/**/*.{ex,exs}|, "lib/foo/bar.java")
       false
+
+  Examples for exact path to a hidden file:
+
+      iex> GlobEx.match?(~g|lib/.foo.ex|, "lib/.foo.ex")
+      true
+
+      iex> GlobEx.match?(~g|**/.foo.ex|, "lib/.foo.ex")
+      false
+
+      iex> GlobEx.match?(~g|**/.foo.ex|d, "lib/.foo.ex")
+      true
   """
   @spec match?(t(), Path.t()) :: boolean()
   def match?(%GlobEx{compiled: compiled, match_dot: match_dot}, path) do
