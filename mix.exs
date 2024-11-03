@@ -2,11 +2,12 @@ defmodule GlobEx.MixProject do
   use Mix.Project
 
   @github "https://github.com/hrzndhrn/glob_ex"
+  @version "0.1.11"
 
   def project do
     [
       app: :glob_ex,
-      version: "0.1.10",
+      version: @version,
       elixir: "~> 1.13",
       description: description(),
       source_url: @github,
@@ -43,7 +44,9 @@ defmodule GlobEx.MixProject do
 
   def docs do
     [
-      main: "GlobEx"
+      main: "GlobEx",
+      source_ref: "v#{@version}",
+      formatters: ["html"]
     ]
   end
 
