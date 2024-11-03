@@ -812,7 +812,7 @@ defmodule GlobExTest do
     prove GlobEx.match?(~g|a/*/c/d|, "a/x/c/d") == true
     prove GlobEx.match?(~g|a/*/c/d|, "a/x/c/x") == false
 
-    # related to test "with an explicit .file in glob" 
+    # related to test "with an explicit .file in glob"
     prove GlobEx.match?(~g|.foo.txt|, ".foo.txt") == true
     prove GlobEx.match?(~g|*/.foo.txt|, ".foo.txt") == false
     prove GlobEx.match?(~g|*/.foo.txt|, "bar/.foo.txt") == false
