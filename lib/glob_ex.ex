@@ -182,6 +182,16 @@ defmodule GlobEx do
     end
   end
 
+  defp match?([:root, {:exact, exact} | glob], match_dot, [[], comp | path]) do
+    if exact == comp do
+      with {glob, path} <- exact(glob, path) do
+        match?(glob, match_dot, path)
+      end
+    else
+      false
+    end
+  end
+
   defp match?([], _match_dot, []) do
     true
   end

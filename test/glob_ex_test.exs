@@ -620,6 +620,21 @@ defmodule GlobExTest do
       assert ls(".foo/.bar/*", match_dot: true) == [".foo/.bar/.baz", ".foo/.bar/zab"]
       assert ls(".foo/.bar/*") == [".foo/.bar/zab"]
     end
+
+    test "with an explicit .file in glob" do
+      mkfiles([".foo.txt", "bar/.foo.txt", "bar/baz/.foo.txt"])
+
+      assert ls(".foo.txt") == [".foo.txt"]
+      assert ls("*/.foo.txt") == []
+      assert ls("**/.foo.txt") == []
+      assert ls("bar/.foo.txt") == ["bar/.foo.txt"]
+
+      cwd = File.cwd!()
+      assert ls(Path.join(cwd, ".foo.txt")) == [Path.join(cwd, ".foo.txt")]
+      assert ls(Path.join(cwd, "*/.foo.txt")) == []
+      assert ls(Path.join(cwd, "**/.foo.txt")) == []
+      assert ls(Path.join(cwd, "bar/.foo.txt")) == [Path.join(cwd, "bar/.foo.txt")]
+    end
   end
 
   batch "match?/2" do
@@ -796,6 +811,20 @@ defmodule GlobExTest do
     prove GlobEx.match?(~g|a/b/**|, "x/b/c/d") == false
     prove GlobEx.match?(~g|a/*/c/d|, "a/x/c/d") == true
     prove GlobEx.match?(~g|a/*/c/d|, "a/x/c/x") == false
+
+    # related to test "with an explicit .file in glob" 
+    prove GlobEx.match?(~g|.foo.txt|, ".foo.txt") == true
+    prove GlobEx.match?(~g|*/.foo.txt|, ".foo.txt") == false
+    prove GlobEx.match?(~g|*/.foo.txt|, "bar/.foo.txt") == false
+    prove GlobEx.match?(~g|**/.foo.txt|, ".foo.txt") ==  false
+    prove GlobEx.match?(~g|**/.foo.txt|, "bar/.foo.txt") ==  false
+    prove GlobEx.match?(~g|bar/.foo.txt|, "bar/.foo.txt") == true
+    prove GlobEx.match?(~g|/.foo.txt|, "/.foo.txt") == true
+    prove GlobEx.match?(~g|/*/.foo.txt|, "/.foo.txt") == false
+    prove GlobEx.match?(~g|/*/.foo.txt|, "/bar/.foo.txt") == false
+    prove GlobEx.match?(~g|/**/.foo.txt|, "/.foo.txt") ==  false
+    prove GlobEx.match?(~g|/**/.foo.txt|, "/bar/.foo.txt") ==  false
+    prove GlobEx.match?(~g|/bar/.foo.txt|, "/bar/.foo.txt") == true
   end
 
   defp ls(glob, opts \\ []) do
