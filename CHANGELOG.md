@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.11 - 2024/10/17
+
++ Fix for matching hidden files with an exact glob from root.
+
 ## 0.1.10 - 2024/10/17
 
 + Shorten `[:double_star, :start]` to `[:double_star]`.
