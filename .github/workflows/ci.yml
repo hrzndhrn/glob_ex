@@ -32,6 +32,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Elixir
+        id: setup-beam
         uses: erlef/setup-beam@v1
         with:
           elixir-version: ${{ matrix.elixir }}
@@ -74,6 +75,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Elixir
+        id: setup-beam
         uses: erlef/setup-beam@v1
         with:
           elixir-version: '1.18.1'
@@ -97,6 +99,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Elixir
+        id: setup-beam
         run: brew install elixir
       - name: Install hex
         run: mix local.hex --force
