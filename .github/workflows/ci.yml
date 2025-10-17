@@ -1,4 +1,4 @@
-# Created with GitHubActions version 0.3.2
+# Created with GitHubActions version 0.3.7
 name: CI
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -8,17 +8,19 @@ on:
 jobs:
   linux:
     name: Test on Ubuntu (Elixir ${{ matrix.elixir }}, OTP ${{ matrix.otp }})
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         include:
-          - elixir: '1.18.2'
-            otp: '27.2'
+          - elixir: '1.19.0'
+            otp: '28.1'
             coverage: true
             lint: true
-          - elixir: '1.18.2'
+          - elixir: '1.19.0'
+            otp: '27.3'
+          - elixir: '1.19.0'
             otp: '26.2'
-          - elixir: '1.18.2'
+          - elixir: '1.18.4'
             otp: '25.3'
           - elixir: '1.17.3'
             otp: '25.3'
@@ -27,9 +29,9 @@ jobs:
           - elixir: '1.15.8'
             otp: '24.3'
           - elixir: '1.14.5'
-            otp: '23.3'
+            otp: '24.3'
           - elixir: '1.13.4'
-            otp: '22.3'
+            otp: '24.3'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -90,8 +92,8 @@ jobs:
         id: setup-beam
         uses: erlef/setup-beam@v1
         with:
-          elixir-version: '1.18.2'
-          otp-version: '27.2'
+          elixir-version: '1.19.0'
+          otp-version: '28.1'
       - name: Restore deps
         uses: actions/cache@v4
         with:
