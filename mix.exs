@@ -12,9 +12,7 @@ defmodule GlobEx.MixProject do
       description: description(),
       source_url: @github,
       start_permanent: Mix.env() == :prod,
-      preferred_cli_env: preferred_cli_env(),
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: preferred_cli_env(),
       docs: docs(),
       package: package(),
       aliases: aliases(),
@@ -32,13 +30,15 @@ defmodule GlobEx.MixProject do
     ]
   end
 
-  defp preferred_cli_env do
+  def cli do
     [
-      carp: :test,
-      coveralls: :test,
-      "coveralls.detail": :test,
-      "coveralls.github": :test,
-      "coveralls.html": :test
+      preferred_envs: [
+        carp: :test,
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.github": :test,
+        "coveralls.html": :test
+      ]
     ]
   end
 
