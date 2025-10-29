@@ -94,7 +94,7 @@ defmodule GlobEx.Compiler do
     end
   end
 
-  # litteral
+  # literal
   defp compile(<<char::utf8, rest::binary>>, result, pos, patterns) do
     compile(rest, [char | result], pos + 1, patterns)
   end

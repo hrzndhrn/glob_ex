@@ -226,7 +226,7 @@ defmodule GlobExTest do
       assert ls("abcd[a-c]f") == []
     end
 
-    test "matching with pattern [] for a compoent" do
+    test "matching with pattern [] for a component" do
       mkfiles(["a/x/c", "a/z/c", "a/xyz/c"])
 
       assert ls("a/[a-z]/c") == ["a/x/c", "a/z/c"]
@@ -607,7 +607,7 @@ defmodule GlobExTest do
       assert ls(".[a-c][0-5]") == []
       assert ls(".[a-c][0-5]", match_dot: true) == [".c1"]
 
-      # Path.wildcard returns files in hiden folders when the glob starts with
+      # Path.wildcard returns files in hidden folders when the glob starts with
       # exact components. But not when the glob starts with other options.
       assert ls("*/.bar/*") == []
 
@@ -743,7 +743,7 @@ defmodule GlobExTest do
     prove GlobEx.match?(~g|{lib,test}/**/*.{ex,exs}|, "scripts/foo.ex") == false
     prove GlobEx.match?(~g|{lib,test}/**/*.{ex,exs}|, "lib/foo/go.java") == false
 
-    # related to test "matching with pattern [] for a compoent"
+    # related to test "matching with pattern [] for a component"
     prove GlobEx.match?(~g|a/[a-z]/c|, "a/x/c") == true
     prove GlobEx.match?(~g|a/[a-z]/c|, "a/z/c") == true
     prove GlobEx.match?(~g|a/[a-z]/c|, "a/xyz/c") == false
@@ -769,7 +769,7 @@ defmodule GlobExTest do
     prove GlobEx.match?(~g|a[][A-C-]|, "a]") == true
     prove GlobEx.match?(~g|a[\-]|, "a-") == true
 
-    # related to test "mathcing ** in different deeps"
+    # related to test "matching ** in different deeps"
     prove GlobEx.match?(~g|{a1,a2}/**/*{oo,ar}|, "a1/abc/foo") == true
     prove GlobEx.match?(~g|{a1,a2}/**/*{oo,ar}|, "a2/def/bar") == true
     prove GlobEx.match?(~g|{a1,a2}/**/*{oo,ar}|, "a2/def/bar/foo") == true

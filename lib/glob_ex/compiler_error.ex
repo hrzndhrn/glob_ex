@@ -5,7 +5,7 @@ defmodule GlobEx.CompileError do
 
   alias GlobEx.CompileError
 
-  @type reason :: :emtpy | :invalid
+  @type reason :: :empty | :invalid
 
   @type t :: %CompileError{reason: reason(), input: String.t()}
 
