@@ -643,6 +643,8 @@ defmodule GlobExTest do
     prove GlobEx.match?(~g|foo|, "FOO") == false
     prove GlobEx.match?(~g|héllò|, "héllò") == true
     prove GlobEx.match?(~g|foo/bar/baz|, "foo/bar/baz") == true
+    prove GlobEx.match?(~g|c:/Users/**|, "c:/Users/example/file.txt") == true
+    prove GlobEx.match?(~g|c:/Users/**|, "C:/Users/example/file.txt") == true
     prove GlobEx.match?(~g|.foo/.bar/.baz|, ".foo/.bar/.baz") == true
     prove GlobEx.match?(~g|.foo/.bar/.baz|d, ".foo/.bar/.baz") == true
     prove GlobEx.match?(~g|.foo/.bar/*|, ".foo/.bar/.baz") == false

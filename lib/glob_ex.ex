@@ -196,6 +196,17 @@ defmodule GlobEx do
     end
   end
 
+  defp match?([{:root, volume} | glob], match_dot, [component | path]) do
+    volume_component = Enum.drop(volume, -1)
+
+    if String.downcase(List.to_string(volume_component)) ==
+         String.downcase(List.to_string(component)) do
+      match?(glob, match_dot, path)
+    else
+      false
+    end
+  end
+
   defp match?([:root, {:exact, exact} | glob], match_dot, [[], comp | path]) do
     if exact == comp do
       with {glob, path} <- exact(glob, path) do
