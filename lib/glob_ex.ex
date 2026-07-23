@@ -30,7 +30,7 @@ defmodule GlobEx do
   Note that \ must be written as \\ in a string literal.
   For example, "\\?*" will match any filename starting with ?.
 
-  Glob expressions can be created using `compile/2`, `compile!/2` or the sigils 
+  Glob expressions can be created using `compile/2`, `compile!/2` or the sigils
   ~g (see `GlobEx.Sigils.sigil_g/2`) or ~G (see `GlobEx.Sigils.sigil_G/2`).
 
   ```elixir
@@ -139,9 +139,9 @@ defmodule GlobEx do
 
   See the module documentation on how to write a glob expression.
 
-  Hidden files starting with a `.` will only be matched  if `match_dot` is 
-  `true` or the `~g`/`~G` has the modifier `d`. However, if the glob expression 
-  consists of an exact path to a hidden file, this path is also matched. 
+  Hidden files starting with a `.` will only be matched  if `match_dot` is
+  `true` or the `~g`/`~G` has the modifier `d`. However, if the glob expression
+  consists of an exact path to a hidden file, this path is also matched.
 
   ## Examples
 
@@ -338,6 +338,10 @@ defmodule GlobEx do
 
   defp match_comp?(comp, :root) do
     comp == []
+  end
+
+  defp match_comp?(comp, {:root, root}) do
+    String.downcase(to_string(comp ++ ~c"/")) == String.downcase(to_string(root))
   end
 
   defp match_comp?(_comp, {:one_of, _one_of}) do

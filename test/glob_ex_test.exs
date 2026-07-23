@@ -825,6 +825,11 @@ defmodule GlobExTest do
     prove GlobEx.match?(~g|/**/.foo.txt|, "/.foo.txt") == false
     prove GlobEx.match?(~g|/**/.foo.txt|, "/bar/.foo.txt") == false
     prove GlobEx.match?(~g|/bar/.foo.txt|, "/bar/.foo.txt") == true
+
+    prove GlobEx.match?(~g|c:/Users/**|, "c:/Users/example/file.txt") == true
+    prove GlobEx.match?(~g|c:/Users/**|, "C:/Users/example/file.txt") == true
+    prove GlobEx.match?(~g|d:/Users/**|, "C:/Users/example/file.txt") == false
+    prove GlobEx.match?(~g|d:/Users/**|, "D:/Users/example/file.txt") == true
   end
 
   defp ls(glob, opts \\ []) do
